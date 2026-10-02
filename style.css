@@ -3334,58 +3334,61 @@ a   { color: inherit; text-decoration: none; }
 [data-hidden-by-config] { display: none !important; }
 
 
-/* ─── Section-to-section scroll cue ─────────────────────────── */
+/* ─── Visible section-to-section scroll cues ───────────────── */
 .section-scroll-cue {
   position: absolute;
-  z-index: 20;
+  z-index: 100;
   left: 50%;
-  bottom: calc(18px + var(--safe-b, 0px));
-  display: inline-flex;
+  bottom: calc(16px + var(--safe-b, 0px));
+  display: flex !important;
+  visibility: visible !important;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 3px;
-  min-width: 44px;
-  min-height: 44px;
-  padding: 5px 12px 7px;
+  min-width: 54px;
+  min-height: 54px;
+  padding: 8px 14px;
   transform: translateX(-50%);
-  color: var(--clr-gold-light, #E6D1A5);
+  color: #F5DFA0;
+  background: rgba(28, 25, 20, 0.82);
+  border: 1px solid rgba(230, 209, 165, 0.85);
+  border-radius: 999px;
+  box-shadow: 0 2px 14px rgba(0, 0, 0, 0.28);
   text-decoration: none;
   -webkit-tap-highlight-color: transparent;
-  opacity: 0.88;
-  transition: opacity 0.25s ease, color 0.25s ease;
+  opacity: 1;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
 }
 
 .section-scroll-cue__label {
   font-family: var(--font-caps, 'Cinzel', serif);
   font-size: 8px;
   line-height: 1.35;
-  font-weight: 500;
-  letter-spacing: 0.22em;
+  font-weight: 600;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   white-space: nowrap;
-  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.55);
 }
 
 .section-scroll-cue__icon {
   display: block;
-  width: 21px;
-  height: 21px;
+  width: 23px;
+  height: 23px;
   overflow: visible;
-  filter: drop-shadow(0 1px 5px rgba(0, 0, 0, 0.45));
-  animation: section-scroll-bob 1.8s ease-in-out infinite;
+  animation: section-scroll-bob 1.5s ease-in-out infinite;
 }
 
 .section-scroll-cue:hover,
 .section-scroll-cue:focus-visible {
-  opacity: 1;
-  color: #F5DFA0;
+  color: #FFF0C2;
+  background: rgba(28, 25, 20, 0.96);
+  border-color: #FFF0C2;
 }
 
 .section-scroll-cue:focus-visible {
-  outline: 1px solid currentColor;
-  outline-offset: 2px;
-  border-radius: 999px;
+  outline: 2px solid #FFF0C2;
+  outline-offset: 3px;
 }
 
 @keyframes section-scroll-bob {
@@ -3393,20 +3396,10 @@ a   { color: inherit; text-decoration: none; }
   50% { transform: translateY(4px); }
 }
 
-/* The first cue sits above the hero's existing invitation CTA. */
-#hero .section-scroll-cue {
-  display: none;
-}
-
-/* The last section intentionally has no continuation cue. */
-#rsvp .section-scroll-cue {
-  display: none;
-}
-
 @media (min-width: 520px) {
-  .section-scroll-cue { bottom: calc(24px + var(--safe-b, 0px)); }
+  .section-scroll-cue { bottom: calc(22px + var(--safe-b, 0px)); }
   .section-scroll-cue__label { font-size: 9px; }
-  .section-scroll-cue__icon { width: 23px; height: 23px; }
+  .section-scroll-cue__icon { width: 25px; height: 25px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
