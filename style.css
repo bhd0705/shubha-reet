@@ -1,0 +1,3334 @@
+/* ═══════════════════════════════════════════════════════════════
+   KARAN & SANJANA — WEDDING WEBSITE
+   style.css  ·  Mobile-first  ·  Coastal Luxury  ·  Cinematic
+═══════════════════════════════════════════════════════════════ */
+
+/* ─── VARIABLES ─────────────────────────────────────────────── */
+:root {
+  --clr-ivory:        #F7F2EA;
+  --clr-ivory-mid:    #EDE6D6;
+  --clr-ivory-deep:   #D9CEB8;
+  --clr-charcoal:     #1C1914;
+  --clr-charcoal-mid: #2A2520;
+  --clr-gold:         #C4A46B;
+  --clr-gold-light:   #DEC08E;
+  --clr-gold-pale:    #EDD9B2;
+  --clr-sage:         #8A9E8C;
+
+  --font-serif:   'Playfair Display', 'Cormorant Garamond', Georgia, serif;
+  --font-script:  'Pinyon Script', cursive;
+  --font-caps:    'Cinzel', Georgia, serif;
+  --font-sans:    'Jost', system-ui, sans-serif;
+
+  --ease-silk: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --safe-t: env(safe-area-inset-top, 0px);
+  --safe-b: env(safe-area-inset-bottom, 0px);
+}
+
+
+/* ─── Cinematic Dark Veil Transition ─────────────────────── */
+.white-flash {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  /* Deep warm dark — like a film scene change, not a camera flash */
+  background: radial-gradient(
+    ellipse 120% 100% at 50% 50%,
+    #100D09 0%,
+    #06040200 100%
+  ), #0A0705;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0s;
+}
+
+.white-flash.is-blooming {
+  opacity: 1;
+  /* Slow, deliberate darkening — like closing eyes, not a flash */
+  transition: opacity 0.65s cubic-bezier(0.4, 0, 0.8, 1);
+}
+
+.white-flash.is-retreating {
+  opacity: 0;
+  /* Long, silky dawn reveal — the world breathes back into existence */
+  transition: opacity 5s cubic-bezier(0.0, 0, 0.06, 1);
+}
+
+.white-flash.is-gone {
+  display: none;
+}
+
+
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--clr-charcoal);
+  color: var(--clr-ivory);
+  font-family: var(--font-sans);
+  font-weight: 300;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+img { display: block; max-width: 100%; height: auto; }
+a   { color: inherit; text-decoration: none; }
+
+/* Reduced motion — animations disabled */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration:       0.01ms !important;
+    animation-iteration-count: 1    !important;
+    transition-duration:      0.01ms !important;
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   INTRO SCREEN
+═══════════════════════════════════════════════════════════════ */
+
+.intro-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  overflow: hidden;
+  cursor: pointer;
+  /* Include transform & filter for cinematic recession effect */
+  transition: opacity 1.4s var(--ease-silk), transform 1.4s var(--ease-silk), filter 1.4s var(--ease-silk);
+  background: #F0EAE0 url('assets/Intro/Intro_Poster.webp') center/cover no-repeat;
+}
+
+.intro-screen.is-fading {
+  opacity: 0;
+  /* Scene "recedes into the veil" — pulls away and softens, like a memory */
+  transform: scale(1.06);
+  filter: blur(6px);
+  pointer-events: none;
+}
+
+.intro-screen.is-gone {
+  display: none;
+}
+
+
+/* ─── Video — full-screen, above the background poster ───── */
+.intro-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: 1;
+}
+
+
+/* ─── Vignette — very subtle, keeps bottom readable ──────── */
+.intro-vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    transparent 50%,
+    rgba(240, 234, 224, 0.45) 100%
+  );
+}
+
+
+/* ─── Tap-to-begin hint — bottom, above everything ────────
+   Pure-CSS fade-in. Independent of JS, fonts, or video buffering,
+   so the hint appears on the first paint after the poster shows. */
+.intro-tap-hint {
+  position: absolute;
+  bottom: calc(4rem + var(--safe-b));
+  left: 0;
+  right: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.1rem;
+  pointer-events: none;
+  background: transparent;
+  opacity: 0;
+  /* fade-in begins ~150 ms after first paint, completes by ~550 ms */
+  animation: tap-hint-enter 0.4s cubic-bezier(0.22, 1, 0.36, 1) 0.15s forwards;
+  transition: opacity 0.35s var(--ease-silk);
+}
+
+@keyframes tap-hint-enter {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0);   }
+}
+
+.intro-tap-hint.is-gone {
+  opacity: 0 !important;
+  animation: none;
+}
+
+.intro-tap-label {
+  font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+  font-size: clamp(1.6rem, 6vw, 2.2rem);
+  font-weight: 300;
+  font-style: italic;
+  letter-spacing: 0.12em;
+  color: #2A2520;                           /* dark charcoal — readable on light video */
+  line-height: 1.2;
+  text-align: center;
+  animation: tap-hint-breathe 2.8s ease-in-out infinite;
+}
+
+.intro-tap-label--sub {
+  font-size: clamp(1.9rem, 7vw, 2.7rem);   /* second line slightly larger */
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  animation-delay: 0.15s;
+}
+
+/* cursor element hidden — no "|" */
+.intro-tap-cursor {
+  display: none;
+}
+
+@keyframes tap-hint-breathe {
+  0%, 100% { opacity: 0.55; transform: translateY(0); }
+  50%       { opacity: 1;    transform: translateY(-4px); }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   MAIN CONTENT
+═══════════════════════════════════════════════════════════════ */
+
+.main-content {
+  opacity: 0;
+  transition: opacity 0.8s var(--ease-silk);
+}
+
+.main-content.is-visible {
+  opacity: 1;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   HERO SECTION
+═══════════════════════════════════════════════════════════════ */
+
+.hero {
+  position: relative;
+  width: 100%;
+  min-height: 100dvh;
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  overflow: hidden;
+}
+
+
+/* ─── Background ──────────────────────────────────────────── */
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+/* ─── Ken Burns 3D zoom — dramatic, clearly visible ────────── */
+@keyframes hero-ken-burns {
+  0%   { transform: scale(1.0)   translateY(0px)    rotate(0.0deg); }
+  30%  { transform: scale(1.10)  translateY(-14px)  rotate(0.3deg); }
+  65%  { transform: scale(1.20)  translateY(-8px)   rotate(-0.2deg); }
+  100% { transform: scale(1.14)  translateY(-18px)  rotate(0.15deg); }
+}
+
+@keyframes hero-depth-shimmer {
+  0%, 100% { opacity: 0; }
+  50%       { opacity: 1; }
+}
+
+/* Organic float pulse for touch devices */
+@keyframes hero-bg-float {
+  0%   { transform: scale(1.10)  translateY(0px); }
+  50%  { transform: scale(1.20)  translateY(-14px); }
+  100% { transform: scale(1.10)  translateY(0px); }
+}
+
+.hero-bg-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  transform-origin: center center;
+  will-change: transform;
+  /* Starts from scale(1.0) so the zoom-in movement is very obvious */
+  animation: hero-ken-burns 18s ease-in-out infinite alternate;
+}
+
+/* On touch devices: same dramatic zoom, slightly slower */
+@media (hover: none) and (pointer: coarse) {
+  .hero-bg-img {
+    animation: hero-bg-float 22s ease-in-out infinite;
+  }
+}
+
+/* Subtle vignette for depth */
+.hero-bg-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    /* Deep bottom fade — this is what makes date/venue readable without any box */
+    linear-gradient(to bottom,
+      rgba(15,12,8,0.08) 0%,
+      transparent 22%,
+      transparent 42%,
+      rgba(15,12,8,0.20) 58%,
+      rgba(15,12,8,0.55) 78%,
+      rgba(15,12,8,0.72) 100%
+    ),
+    /* Soft radial edge vignette */
+    radial-gradient(ellipse 110% 90% at 50% 60%, transparent 35%, rgba(15,12,8,0.28) 100%);
+  z-index: 1;
+}
+
+
+/* ─── Birds Canvas ────────────────────────────────────────── */
+.hero-birds {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+
+/* ─── Petals ──────────────────────────────────────────────── */
+.petals-container {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 2;           /* same layer as birds; content stays above at z-index 3 */
+}
+
+.hero-petal {
+  position: absolute;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+  will-change: transform, top, left;
+  /* Soft drop shadow so petals read against both light & dark bg areas */
+  filter: drop-shadow(0 1px 3px rgba(0,0,0,0.18));
+}
+
+
+/* ─── Botanical — hidden ─────────────────────────────────── */
+.hero-botanical {
+  display: none;
+}
+
+
+/* ─── Corner Assets — hidden ──────────────────────────────── */
+.hero-corner {
+  display: none;
+}
+
+.hero-corner-img { width: 100%; height: auto; }
+
+
+/* ─── Hero Content ────────────────────────────────────────── */
+.hero-content {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding-top: 70px;
+  padding-right: 2.4rem;
+  padding-bottom: 88px;
+  padding-left: 2.4rem;
+  max-width: 500px;
+  width: 100%;
+  min-height: 100dvh;
+  min-height: 100vh;
+
+  background: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-radius: 0;
+  box-shadow: none;
+
+  opacity: 0;
+  transition: opacity 1.8s var(--ease-expo);
+}
+
+.hero-content.is-visible {
+  opacity: 1;
+}
+.hero-logo {
+  display: none;
+}
+
+
+/* ─── Hero Typography ─────────────────────────────────────── */
+
+.hero-eyebrow {
+  font-family: var(--font-caps);
+  font-size: clamp(0.677rem, 2.40vw, 0.852rem);
+  white-space: nowrap;
+  font-weight: 500;
+  letter-spacing: 0.38em;
+  text-transform: uppercase;
+  color: #3A2C18;
+  margin-bottom: 0.9rem;
+  text-shadow:
+    0 1px 6px rgba(255,252,240,0.9),
+    0 0 24px rgba(255,252,240,0.8),
+    0 2px 16px rgba(255,252,240,0.7);
+
+  opacity: 0;
+  clip-path: inset(0 0 100% 0);
+  transition: opacity 1.1s var(--ease-expo) 0.5s, clip-path 1.1s var(--ease-expo) 0.5s;
+}
+
+.hero-content.is-visible .hero-eyebrow {
+  opacity: 1;
+  clip-path: inset(0 0 0% 0);
+}
+
+.hero-names {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Great Vibes', 'Pinyon Script', cursive;
+  font-size: clamp(3.25rem, 13.5vw, 4.25rem);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  line-height: 1.05;
+  color: #1A1408;
+  margin-bottom: 0.5rem;
+  text-shadow:
+    0 2px 0  rgba(255,252,240,0.85),
+    0 4px 18px rgba(80,60,20,0.16),
+    0 1px 4px rgba(0,0,0,0.10);
+
+  opacity: 0;
+  transform: translateY(20px);
+  filter: blur(6px);
+  transition:
+    opacity 1.6s var(--ease-expo) 0.65s,
+    transform 1.6s var(--ease-expo) 0.65s,
+    filter 1.6s var(--ease-expo) 0.65s;
+}
+
+.hero-content.is-visible .hero-names {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+}
+
+.hero-name {
+  display: block;
+  cursor: default;
+  transition: transform 0.55s var(--ease-silk), text-shadow 0.55s ease;
+}
+
+.hero-name:hover {
+  transform: translateY(-4px) scale(1.025);
+  text-shadow:
+    0 4px 0  rgba(255,252,240,0.75),
+    0 8px 32px rgba(80,60,20,0.20),
+    0 0 44px rgba(196,164,107,0.22);
+}
+
+/* Change 11 — Ampersand gold glow pulse */
+@keyframes amp-glow-pulse {
+  0%, 100% { text-shadow: 0 0 8px rgba(200,160,60,0.40); }
+  50%       { text-shadow: 0 0 16px rgba(200,160,60,0.75); }
+}
+
+.hero-ampersand {
+  display: block;
+  font-family: var(--font-serif);
+  font-size: 0.3em;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  color: #8B6A35;
+  line-height: 1.5;
+  animation: amp-glow-pulse 3.5s ease-in-out infinite;
+}
+
+.hero-divider {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: clamp(100px, 38vw, 200px);
+  margin-bottom: 0.5rem;
+
+  opacity: 0;
+  transform: scaleX(0);
+  transition: opacity 1s var(--ease-expo) 1.1s, transform 1s var(--ease-expo) 1.1s;
+  transform-origin: center;
+}
+
+.hero-content.is-visible .hero-divider {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+.hero-divider-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(184, 149, 90, 0.6), transparent);
+}
+
+/* Change 10 — Diamond breathe animation */
+@keyframes diamond-breathe {
+  0%, 100% { opacity: 0.55; }
+  50%       { opacity: 1; }
+}
+
+.hero-divider-diamond {
+  font-size: 0.38rem;
+  color: var(--clr-gold);
+  animation: diamond-breathe 2.8s ease-in-out infinite;
+}
+
+@keyframes text-glow-pulse {
+  0%, 100% { text-shadow: 0 1px 0 rgba(0,0,0,0.55), 0 2px 12px rgba(0,0,0,0.40), 0 0 40px rgba(196,164,107,0.25); }
+  50%       { text-shadow: 0 1px 0 rgba(0,0,0,0.65), 0 2px 20px rgba(0,0,0,0.50), 0 0 56px rgba(196,164,107,0.45); }
+}
+
+/* ─── Date + Venue — no scrim, pure shadow contrast ─────── */
+.hero-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  margin-top: 0.6rem;
+  padding: 0.4rem 1rem;
+  background: none;
+  position: relative;
+  top: -0.5rem;
+
+  opacity: 0;
+  transform: translateY(10px);
+  transition:
+    opacity 1s var(--ease-expo) 1.3s,
+    transform 1s var(--ease-expo) 1.3s;
+}
+
+.hero-content.is-visible .hero-meta {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.hero-date {
+  font-family: var(--font-caps);
+  font-size: clamp(1rem, 3.6vw, 1.2rem);
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: #3A2A22;
+  text-align: center;
+  text-shadow: none;
+}
+
+.hero-meta-divider {
+  width: 36px;
+  height: 1px;
+  background: rgba(212, 192, 142, 0.70);
+  margin: 0.6rem auto;
+}
+
+.hero-venue {
+  font-family: var(--font-caps);
+  font-size: clamp(0.95rem, 3.4vw, 1.1rem);
+  font-weight: 600;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: #3A2A22;
+  text-align: center;
+  text-shadow: none;
+}
+
+/* ─── Scroll CTA — pinned to bottom of hero ──────────────── */
+@keyframes scroll-cta-float {
+  0%, 100% { transform: translateY(0); opacity: 0.7; }
+  50%       { transform: translateY(-7px); opacity: 1; }
+}
+
+@keyframes chevron-cascade {
+  0%   { opacity: 0;   transform: translateY(-6px); }
+  40%  { opacity: 1;   transform: translateY(0); }
+  80%  { opacity: 0.2; transform: translateY(6px); }
+  100% { opacity: 0;   transform: translateY(10px); }
+}
+
+.hero-scroll-cta {
+  position: absolute;
+  bottom: clamp(3rem, 7vh, 5rem);
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  width: fit-content;
+  z-index: 10;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--font-caps);
+  font-size: clamp(0.58rem, 1.9vw, 0.68rem);
+  font-weight: 700;
+  letter-spacing: 0.38em;
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--clr-ivory);
+  cursor: pointer;
+  white-space: nowrap;
+  text-shadow:
+    0 1px 6px rgba(0,0,0,0.80),
+    0 2px 16px rgba(0,0,0,0.60);
+
+  opacity: 0;
+  transition: opacity 1.4s var(--ease-expo) 2s;
+  animation: scroll-cta-float 3s ease-in-out infinite 3.5s;
+  pointer-events: auto;
+}
+
+.hero-scroll-cta.is-hidden {
+  opacity: 0 !important;
+  pointer-events: none;
+  transition: opacity 0.4s ease !important;
+  animation: none !important;
+}
+
+.hero-content.is-visible .hero-scroll-cta { opacity: 0.75; }
+
+.hero-scroll-cta:hover,
+.hero-scroll-cta:focus {
+  color: var(--clr-gold-light);
+  opacity: 1;
+  outline: none;
+}
+
+/* Cascading chevrons */
+.hero-scroll-arrow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  margin-top: 0.3rem;
+}
+
+.hero-scroll-arrow span {
+  display: block;
+  width: 16px;
+  height: 9px;
+  border-right: 2px solid var(--clr-ivory);
+  border-bottom: 2px solid var(--clr-ivory);
+  transform: rotate(45deg);
+  filter: drop-shadow(0 1px 4px rgba(0,0,0,0.8));
+  animation: chevron-cascade 1.8s ease-in-out infinite;
+}
+
+.hero-scroll-arrow span:nth-child(2) {
+  animation-delay: 0.18s;
+  margin-top: -6px;
+}
+
+.hero-scroll-arrow span:nth-child(3) {
+  animation-delay: 0.36s;
+  margin-top: -6px;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   PLACEHOLDER SECTIONS
+═══════════════════════════════════════════════════════════════ */
+
+.placeholder-section {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--clr-ivory);
+  border-top: 1px solid var(--clr-ivory-deep);
+  overflow: hidden;
+}
+
+.placeholder-section:nth-child(even) {
+  background: var(--clr-ivory-mid);
+}
+
+.placeholder-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.placeholder-section--last {
+  background: var(--clr-charcoal);
+}
+
+.placeholder-section--last .placeholder-label,
+.placeholder-section--last .placeholder-title,
+.placeholder-section--last .placeholder-sub {
+  color: var(--clr-ivory);
+}
+
+.placeholder-section--last .placeholder-sub {
+  color: var(--clr-ivory-deep);
+  opacity: 0.5;
+}
+
+.placeholder-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 3rem 2rem;
+}
+
+.placeholder-label { display: none; }
+
+.placeholder-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2.5rem, 8vw, 4.8rem);
+  font-weight: 300;
+  font-style: italic;
+  color: var(--clr-charcoal-mid, #2A2520);
+  line-height: 1.1;
+  margin-bottom: 1rem;
+}
+
+.placeholder-sub {
+  font-family: var(--font-sans);
+  font-size: clamp(0.65rem, 2.2vw, 0.78rem);
+  font-weight: 200;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--clr-charcoal-mid, #2A2520);
+  opacity: 0.5;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   DESKTOP 768+
+═══════════════════════════════════════════════════════════════ */
+@media (min-width: 768px) {
+
+  .hero-names {
+    flex-direction: column;
+    align-items: center;
+    font-family: 'Great Vibes', 'Pinyon Script', cursive;
+    font-size: clamp(5rem, 10vw, 9.5rem);
+  }
+
+  .hero-ampersand {
+    font-size: 0.3em;
+    padding: 0;
+    line-height: 1.5;
+  }
+
+  .hero-content      { max-width: 720px; }
+  .hero-botanical    { width: clamp(280px, 34vw, 520px); }
+  .hero-corner--tl   { width: clamp(180px, 26vw, 340px); }
+  .hero-corner--br   { width: clamp(160px, 22vw, 300px); }
+  .hero-logo-img     { width: clamp(110px, 16vw, 180px); }
+
+  .invite-card       { max-width: 560px; padding: 7rem 3rem 8rem; }
+  .invite-name       { font-size: clamp(3.5rem, 6vw, 5rem); }
+  .invite-ornament--top  { width: clamp(200px, 30vw, 360px); }
+  .invite-ornament--bottom { width: clamp(160px, 25vw, 300px); }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   INVITE SECTION
+═══════════════════════════════════════════════════════════════ */
+
+.invite {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  overflow: hidden;
+  padding: 0;
+}
+
+
+/* ─── Invite Background ──────────────────────────────────── */
+.invite-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.invite-bg-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  transform: scale(1.05);
+  will-change: transform;
+}
+
+.invite-bg-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(247, 242, 234, 0.55) 0%,
+      rgba(247, 242, 234, 0.38) 30%,
+      rgba(247, 242, 234, 0.38) 70%,
+      rgba(247, 242, 234, 0.58) 100%
+    );
+}
+
+
+/* ─── Floating Ornaments ─────────────────────────────────── */
+.invite-ornament {
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.invite-ornament--top {
+  top: -3%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: clamp(160px, 60vw, 340px);
+  z-index: 0;
+}
+
+.invite-ornament--bottom {
+  bottom: 4%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: clamp(130px, 48vw, 280px);
+}
+
+.invite-ornament-img {
+  width: 100%;
+  height: auto;
+}
+
+
+/* ─── Invitation Card ────────────────────────────────────── */
+.invite-card {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  max-width: 440px;
+  padding: 5.5rem 2rem 5rem;
+}
+
+
+/* ─── Section Number — hidden ────────────────────────────── */
+.invite-section-num { display: none; }
+
+
+/* ─── Ornamental Rules ───────────────────────────────────── */
+.invite-rule {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  width: clamp(120px, 55vw, 260px);
+  margin-bottom: 1.6rem;
+}
+
+.invite-rule--open  { margin-bottom: 1.8rem; }
+.invite-rule--mid   { margin-top: 0.6rem; margin-bottom: 1.6rem; }
+.invite-rule--close { margin-top: 0.6rem; margin-bottom: 0; }
+
+.invite-rule-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(211, 179, 122, 0.55), transparent);
+}
+
+.invite-rule-motif {
+  font-size: 0.45rem;
+  color: #D3B37A;
+  letter-spacing: 0;
+  line-height: 1;
+}
+
+.invite-spacer-rule {
+  display: flex;
+  width: clamp(60px, 28vw, 140px);
+  margin: 1.2rem 0;
+}
+
+.invite-spacer-rule .invite-rule-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(211, 179, 122, 0.42), transparent);
+}
+
+.invite-inner-rule {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: clamp(60px, 24vw, 110px);
+  margin: 0.9rem 0;
+}
+
+.invite-inner-line {
+  flex: 1;
+  height: 1px;
+  background: rgba(211, 179, 122, 0.38);
+}
+
+.invite-inner-dot {
+  font-size: 0.3rem;
+  color: #D3B37A;
+  line-height: 1;
+}
+
+
+/* ─── Invite Blocks — scroll animation ───────────────────── */
+.invite-block {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 0;
+
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity  0.9s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.invite-block.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.invite-block--focal {
+  transition:
+    opacity  1.2s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  margin-bottom: -4px;
+  margin-top: -4px;
+}
+
+
+/* ─── Typography ─────────────────────────────────────────── */
+
+.invite-blessing-label {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 11.2px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #8B7B65;
+  margin-bottom: 1.4rem;
+}
+
+.invite-ancestor {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 17px;
+  font-weight: 500;
+  font-style: normal;
+  letter-spacing: 0.01em;
+  color: #3F372F;
+  line-height: 1.52;
+}
+
+.invite-parent {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: #4E443A;
+  line-height: 1.52;
+}
+
+.invite-prose {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 17px;
+  font-weight: 500;
+  font-style: italic;
+  letter-spacing: 0.01em;
+  color: #5C5045;
+  line-height: 1.55;
+  margin-bottom: 2rem;
+}
+
+.invite-name {
+  font-family: 'Great Vibes', 'Pinyon Script', cursive;
+  font-size: clamp(3.4rem, 15vw, 3.75rem);
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  color: #2F2924;
+  margin: 0;
+}
+
+.invite-name--groom { margin-bottom: 0; }
+.invite-name--bride { margin-top: 0; }
+
+.invite-with {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 14px;
+  font-weight: 500;
+  font-style: italic;
+  letter-spacing: 0.04em;
+  color: #8B7B65;
+  margin: 0.2rem 0;
+}
+
+.invite-lineage-label {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: #A58D70;
+  margin-bottom: 0.4rem;
+}
+
+.invite-lineage {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: #4E443A;
+  line-height: 1.55;
+  margin-bottom: 1.4rem;
+}
+
+.invite-block { padding: 0.2rem 0; }
+
+
+/* ═══════════════════════════════════════════════════════════════
+   WEDDING WEEKEND EVENTS SECTION
+   Section 03 · Luxury swipeable carousel · Mobile-first
+═══════════════════════════════════════════════════════════════ */
+
+/* ─── Event color accent tokens ──────────────────────────── */
+:root {
+  --evt-welcome-accent:  #A8CCCC;  /* pale aqua */
+  --evt-sangeet-accent:  #2A6060;  /* deep teal */
+  --evt-coastal-accent:  #8FC4B0;  /* seafoam */
+  --evt-baraat-accent:   #D4843A;  /* marigold */
+  --evt-varmala-accent:  #D4A0A0;  /* blush pink */
+  --evt-phere-accent:    #8B4A2A;  /* warm amber-maroon */
+}
+
+/* ─── Section shell ──────────────────────────────────────── */
+.events {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+  padding-top: clamp(5rem, 12vw, 8rem);
+  padding-bottom: clamp(5rem, 10vw, 7rem);
+  /* Prevent carousel from causing horizontal scroll */
+  overflow-x: hidden;
+}
+
+/* ─── Section background ─────────────────────────────────── */
+.events-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+/* Primary bg image */
+.events-bg-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Fallback image sits underneath */
+.events-bg-img--fallback {
+  z-index: -1;
+}
+
+/* Dark overlay with slight warm tint — keeps cards legible */
+.events-bg-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      160deg,
+      rgba(20, 16, 12, 0.44) 0%,
+      rgba(28, 22, 16, 0.36) 50%,
+      rgba(20, 16, 12, 0.48) 100%
+    );
+}
+
+/* Fallback: if no images load, charcoal still looks good */
+.events-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background: linear-gradient(160deg, #1a1410 0%, #221a12 100%);
+}
+
+
+/* ─── Section header ─────────────────────────────────────── */
+.events-header {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: clamp(2.4rem, 6vw, 4rem);
+  padding: 0 1.5rem;
+
+  /* Scroll entrance animation — JS adds .is-visible */
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 1s var(--ease-expo), transform 1s var(--ease-expo);
+}
+
+.events-header.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── Section Number — hidden ────────────────────────────── */
+.events-section-num { display: none; }
+
+.events-title-rule {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: clamp(100px, 40vw, 200px);
+  margin-bottom: 1.4rem;
+}
+
+.events-rule-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(196, 164, 107, 0.5), transparent);
+}
+
+.events-rule-motif {
+  font-size: 0.44rem;
+  color: var(--clr-gold);
+  line-height: 1;
+}
+
+.events-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2.4rem, 9vw, 4.8rem);
+  font-weight: 300;
+  font-style: italic;
+  letter-spacing: 0.01em;
+  line-height: 1.1;
+  color: var(--clr-ivory);
+  margin-bottom: 1rem;
+}
+
+.events-subtitle {
+  font-family: var(--font-sans);
+  font-size: clamp(0.62rem, 2.2vw, 0.76rem);
+  font-weight: 200;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--clr-gold-pale);
+  opacity: 0.75;
+  line-height: 1.7;
+}
+
+
+/* ─── Swipe hint animation ───────────────────────────────── */
+@keyframes swipe-hint {
+  0%   { transform: translateX(0); opacity: 0.6; }
+  30%  { transform: translateX(-18px); opacity: 1; }
+  60%  { transform: translateX(6px); opacity: 0.8; }
+  100% { transform: translateX(0); opacity: 0.6; }
+}
+
+@keyframes card-float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-7px); }
+}
+
+@keyframes shimmer-sweep {
+  0%   { left: -100%; opacity: 0; }
+  30%  { opacity: 0.5; }
+  100% { left: 160%; opacity: 0; }
+}
+
+@keyframes swipe-nudge {
+  0%   { transform: translateX(0) rotate(0deg); opacity: 0; }
+  10%  { opacity: 1; }
+  40%  { transform: translateX(-22px) rotate(-8deg); }
+  70%  { transform: translateX(8px) rotate(4deg); opacity: 1; }
+  100% { transform: translateX(0) rotate(0deg); opacity: 0; }
+}
+
+/* ─── Swipe affordance hint — centered below dots ────────── */
+.events-swipe-hint {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  margin-top: 1.2rem;
+  pointer-events: none;
+  opacity: 0;
+  animation: swipe-hint 2.2s var(--ease-silk) 1.2s 2 forwards;
+}
+
+.events-swipe-hint-icon {
+  font-size: 1.1rem;
+  color: #ffffff;
+  animation: swipe-nudge 2.2s var(--ease-silk) 1.2s 2 forwards;
+}
+
+.events-swipe-hint-text {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: #ffffff;
+  opacity: 0.95;
+}
+
+/* ─── Carousel wrapper ───────────────────────────────────── */
+.events-carousel-wrap {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1200px;
+  perspective-origin: 50% 50%;
+}
+
+
+/* ─── Scrollable track ───────────────────────────────────── */
+.events-track {
+  display: flex;
+  align-items: center;
+  gap: clamp(20px, 5vw, 36px);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding: 3rem clamp(10vw, 15vw, 20vw);
+  width: 100%;
+  cursor: grab;
+  /* Enable 3d children */
+  transform-style: preserve-3d;
+}
+
+.events-track:active { cursor: grabbing; }
+.events-track::-webkit-scrollbar { display: none; }
+
+
+/* ─── Card outer shell ───────────────────────────────────── */
+.event-card {
+  position: relative;
+  flex: 0 0 clamp(280px, 80vw, 380px);
+  width:  clamp(280px, 80vw, 380px);
+  height: clamp(440px, 72vh, 600px);
+  scroll-snap-align: center;
+  /* Arch top — already there from the start, no animation */
+  border-radius: 50% 50% 1.6rem 1.6rem / 12% 12% 1.6rem 1.6rem;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+
+  /* Champagne border */
+  box-shadow:
+    0 0 0 1px rgba(220, 196, 142, 0.30),
+    0 0 28px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(247, 242, 234, 0.16);
+
+  /* 3D coverflow defaults — side cards tilt away */
+  transition:
+    transform  0.65s var(--ease-silk),
+    opacity    0.65s var(--ease-silk),
+    filter     0.65s var(--ease-silk),
+    box-shadow 0.65s var(--ease-silk);
+
+  opacity: 0.46;
+  transform: scale(0.86) rotateY(18deg);
+  filter: brightness(0.65) saturate(0.7);
+  transform-style: preserve-3d;
+  will-change: transform, opacity, filter;
+}
+
+/* Right-side cards tilt opposite way — set by JS */
+.event-card.is-right {
+  transform: scale(0.86) rotateY(-18deg);
+}
+
+/* Active card — front and centre */
+.event-card.is-active {
+  opacity: 1;
+  transform: scale(1) rotateY(0deg);
+  filter: brightness(1) saturate(1);
+  box-shadow:
+    0 0 0 1px rgba(220, 196, 142, 0.55),
+    0 16px 60px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(247, 242, 234, 0.22);
+  /* Floating bob only on active */
+  animation: card-float 5s ease-in-out infinite;
+}
+
+/* Initial hidden state for scroll-in animation */
+.event-card[data-card-entering] {
+  opacity: 0;
+  transform: scale(0.88) translateY(16px);
+}
+
+
+
+/* ─── Card: event background image ──────────────────────── */
+.event-card-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.event-card-bg-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  transition: transform 1s var(--ease-silk);
+}
+
+.event-card.is-active .event-card-bg-img {
+  transform: scale(1.06);
+}
+
+.event-card-bg-fallback {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: 0;
+}
+
+.event-card[data-fallback="true"] .event-card-bg-fallback { opacity: 1; }
+.event-card[data-fallback="true"] .event-card-bg-img      { opacity: 0; }
+
+
+/* ─── Overlay: slim bottom scrim only — top stays clear for couple illustration ── */
+.event-card-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  /* Only a gentle bottom fade; top 55% completely transparent */
+  background:
+    linear-gradient(
+      to bottom,
+      transparent 0%,
+      transparent 55%,
+      rgba(10, 7, 4, 0.22) 100%
+    );
+}
+
+
+/* ─── Shimmer sweep on active card ───────────────────────── */
+.event-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  z-index: 8;
+  pointer-events: none;
+  background: linear-gradient(
+    105deg,
+    transparent 30%,
+    rgba(255, 248, 230, 0.07) 50%,
+    transparent 70%
+  );
+  opacity: 0;
+}
+
+.event-card.is-active::after {
+  animation: shimmer-sweep 3.5s ease-in-out 0.4s infinite;
+}
+
+
+/* ─── Couple cutout ──────────────────────────────────────── */
+.event-card-couple {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 4;
+  width: 88%;
+  height: 65%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.event-card-couple-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: bottom center;
+  filter: drop-shadow(0 -12px 32px rgba(0,0,0,0.32));
+  transition: transform 0.9s var(--ease-silk);
+}
+
+.event-card.is-active .event-card-couple-img {
+  transform: translateY(-8px);
+}
+
+
+/* ─── Text panel — frosted glass with gold rim ── */
+.event-card-panel {
+  position: absolute;
+  top: 2%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  width: 90%;
+  max-width: 90%;
+  padding: 0.75rem 1rem 0.85rem;
+  text-align: center;
+  /* No background rectangle — fully transparent */
+  background: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border: none;
+  box-shadow: none;
+  border-radius: 0;
+}
+
+/* Accent line */
+.event-card-panel::before {
+  content: '';
+  display: block;
+  width: 28px;
+  height: 1px;
+  margin: 0 auto 0.8rem;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--evt-accent, var(--clr-gold)) 40%,
+    var(--evt-accent, var(--clr-gold)) 60%,
+    transparent
+  );
+  opacity: 0.9;
+}
+
+/* Event name */
+.event-card-name {
+  font-family: var(--font-serif);
+  font-size: clamp(1.54rem, 6.5vw, 1.875rem);
+  font-weight: 500;
+  font-style: italic;
+  letter-spacing: 0.01em;
+  line-height: 1.02;
+  color: var(--evt-title, var(--clr-ivory));
+  margin-bottom: 0.375rem;
+  text-shadow: 0 1px 8px rgba(255,255,255,0.18);
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+/* Date row — refined, supporting role */
+.event-card-date {
+  font-family: var(--font-serif);
+  font-size: clamp(0.78rem, 3.1vw, 0.8125rem);
+  font-weight: 600;
+  font-style: normal;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--evt-datetime, var(--clr-ivory));
+  margin-bottom: 0.375rem;
+  opacity: 0.88;
+  text-shadow: 0 1px 4px rgba(255,255,255,0.15);
+}
+
+/* Subtitle — quiet, secondary label */
+.event-card-sub {
+  font-family: var(--font-sans);
+  font-size: clamp(0.656rem, 2.8vw, 0.719rem);
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--evt-title, var(--clr-ivory));
+  opacity: 0.82;
+  margin-top: -0.28rem;
+  margin-bottom: 0.2rem;
+  text-shadow: 0 1px 4px rgba(255,255,255,0.15);
+}
+
+/* Time row — present but not dominant */
+.event-card-time {
+  font-family: var(--font-sans);
+  font-size: clamp(0.875rem, 3.5vw, 0.9375rem);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--evt-datetime, var(--clr-ivory-mid));
+  opacity: 0.90;
+  margin-bottom: 0.3rem;
+  text-shadow: 0 1px 4px rgba(255,255,255,0.15);
+}
+
+/* Venue row — elegant, not loud */
+.event-card-venue {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.32em;
+  font-family: var(--font-sans);
+  font-size: clamp(0.8125rem, 3.3vw, 0.875rem);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--evt-venue, var(--evt-accent, var(--clr-gold)));
+  opacity: 0.92;
+  margin-bottom: 0.5rem;
+  white-space: nowrap;
+  text-shadow: 0 1px 4px rgba(255,255,255,0.12);
+}
+
+.event-card-venue::before {
+  content: '';
+  display: inline-block;
+  width: 0.72em;
+  height: 0.72em;
+  background-color: currentColor;
+  opacity: 0.85;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z'/%3E%3C/svg%3E");
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  flex-shrink: 0;
+}
+
+/* Panel rule */
+.event-card-rule {
+  display: none;
+  align-items: center;
+  gap: 0.45rem;
+  margin: 0.45rem auto 0.6rem;
+  width: 55%;
+}
+
+.event-card-rule-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--evt-accent, rgba(196, 164, 107, 0.5)), transparent);
+  opacity: 0.6;
+}
+
+.event-card-rule-dot {
+  font-size: 0.26rem;
+  color: var(--evt-accent);
+  line-height: 1;
+}
+
+/* Tag / quote pill — anchored to bottom of card */
+.event-card-tag {
+  position: absolute;
+  bottom: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  max-width: 78%;
+  padding: 0.38em 1.05em 0.42em;
+  border-radius: 50px;
+  background: var(--evt-quote-fade, rgba(10,7,4,0.32));
+  backdrop-filter: blur(10px) saturate(1.3);
+  -webkit-backdrop-filter: blur(10px) saturate(1.3);
+  font-family: var(--font-serif);
+  font-size: clamp(0.80rem, 2.7vw, 0.94rem);
+  font-weight: 300;
+  font-style: italic;
+  letter-spacing: 0.03em;
+  text-align: center;
+  color: var(--evt-quote, var(--clr-ivory-mid));
+  opacity: 0.96;
+  margin: 0;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+
+
+/* ─── Subtle inner glow border on arch ───────────────────── */
+.event-card-glow {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  border-radius: inherit;
+  pointer-events: none;
+  box-shadow: inset 0 0 0 1px rgba(247, 242, 234, 0.10);
+  transition: box-shadow 0.5s ease;
+}
+
+.event-card.is-active .event-card-glow {
+  box-shadow:
+    inset 0 0 0 1px rgba(247, 242, 234, 0.22),
+    inset 0 2px 16px rgba(255, 255, 255, 0.07);
+}
+
+
+/* ─── Readability veil — top-gradient per card type ─────────── */
+/* z-index 2: above the bottom scrim (z1) but behind couple (z4) and panel (z5) */
+.event-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.event-card.light-card::before,
+.event-card.warm-light-card::before {
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 248, 230, 0.78) 0%,
+    rgba(255, 248, 230, 0.52) 24%,
+    rgba(255, 248, 230, 0.20) 44%,
+    rgba(255, 248, 230, 0)    62%
+  );
+}
+
+.event-card.floral-light-card::before {
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 244, 229, 0.84) 0%,
+    rgba(255, 244, 229, 0.58) 25%,
+    rgba(255, 244, 229, 0.24) 46%,
+    rgba(255, 244, 229, 0)    64%
+  );
+}
+
+.event-card.coastal-light-card::before {
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 251, 235, 0.76) 0%,
+    rgba(255, 251, 235, 0.48) 23%,
+    rgba(255, 251, 235, 0.18) 43%,
+    rgba(255, 251, 235, 0)    60%
+  );
+}
+
+.event-card.coastal-sunset-card::before {
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 246, 230, 0.82) 0%,
+    rgba(255, 246, 230, 0.56) 25%,
+    rgba(255, 246, 230, 0.24) 46%,
+    rgba(255, 246, 230, 0)    64%
+  );
+}
+
+.event-card.dark-card::before {
+  background: linear-gradient(
+    to bottom,
+    rgba(14, 58, 60, 0.82) 0%,
+    rgba(14, 58, 60, 0.60) 28%,
+    rgba(14, 58, 60, 0.25) 50%,
+    rgba(14, 58, 60, 0)    68%
+  );
+}
+
+/* ─── Card-type text colour overrides ───────────────────────── */
+
+/* Light/warm cards — warm ivory glow (overrides base white glow) */
+.event-card.light-card .event-card-date,
+.event-card.light-card .event-card-name,
+.event-card.light-card .event-card-time,
+.event-card.light-card .event-card-sub,
+.event-card.light-card .event-card-venue,
+.event-card.warm-light-card .event-card-date,
+.event-card.warm-light-card .event-card-name,
+.event-card.warm-light-card .event-card-time,
+.event-card.warm-light-card .event-card-sub,
+.event-card.warm-light-card .event-card-venue,
+.event-card.coastal-light-card .event-card-date,
+.event-card.coastal-light-card .event-card-name,
+.event-card.coastal-light-card .event-card-time,
+.event-card.coastal-light-card .event-card-sub,
+.event-card.coastal-light-card .event-card-venue,
+.event-card.coastal-sunset-card .event-card-date,
+.event-card.coastal-sunset-card .event-card-name,
+.event-card.coastal-sunset-card .event-card-time,
+.event-card.coastal-sunset-card .event-card-sub,
+.event-card.coastal-sunset-card .event-card-venue,
+.event-card.floral-light-card .event-card-date,
+.event-card.floral-light-card .event-card-name,
+.event-card.floral-light-card .event-card-time,
+.event-card.floral-light-card .event-card-sub,
+.event-card.floral-light-card .event-card-venue {
+  text-shadow: 0 1px 8px rgba(255, 248, 232, 0.70);
+}
+
+/* Coastal cards — deep teal title/venue, warm brown date/time/sub */
+.event-card.coastal-light-card .event-card-name,
+.event-card.coastal-sunset-card .event-card-name {
+  color: #245C63;
+}
+.event-card.coastal-light-card .event-card-venue,
+.event-card.coastal-sunset-card .event-card-venue {
+  color: #4C8584;
+}
+.event-card.coastal-light-card .event-card-date,
+.event-card.coastal-light-card .event-card-time,
+.event-card.coastal-light-card .event-card-sub,
+.event-card.coastal-sunset-card .event-card-date,
+.event-card.coastal-sunset-card .event-card-time,
+.event-card.coastal-sunset-card .event-card-sub {
+  color: #3E332C;
+}
+
+/* Floral cards — lower panel so text clears hanging flowers/bells */
+.event-card.floral-light-card .event-card-panel {
+  top: 2%;
+}
+.event-card.floral-light-card .event-card-name {
+  color: #7B3C37;
+}
+.event-card.floral-light-card .event-card-date,
+.event-card.floral-light-card .event-card-time {
+  color: #4B3328;
+}
+.event-card.floral-light-card .event-card-sub {
+  color: #7A5A47;
+}
+.event-card.floral-light-card .event-card-venue {
+  color: #9A5F47;
+}
+
+/* Warm baraat card */
+.event-card.warm-light-card .event-card-name {
+  color: #4A2F28;
+}
+.event-card.warm-light-card .event-card-venue {
+  color: #9A6746;
+}
+
+/* Dark celestial card — ivory/gold + teal shadow, overrides warm glow above */
+.event-card.dark-card .event-card-date,
+.event-card.dark-card .event-card-name,
+.event-card.dark-card .event-card-time {
+  color: #FFF3D8;
+  text-shadow: 0 1px 12px rgba(0, 35, 38, 0.62);
+}
+.event-card.dark-card .event-card-sub,
+.event-card.dark-card .event-card-venue {
+  color: #E8C98A;
+  text-shadow: 0 1px 12px rgba(0, 35, 38, 0.62);
+}
+
+/* ─── Per-title size adjustments for long titles ─────────── */
+.event-card.forever-begins .event-card-name,
+.event-card.moment-in-gold .event-card-name {
+  font-size: clamp(1.43rem, 6vw, 1.7rem);
+  letter-spacing: -0.01em;
+}
+
+.event-card.celestial-night .event-card-name {
+  font-size: clamp(1.54rem, 6.3vw, 1.82rem);
+}
+
+/* ─── Prev / Next arrows — glassmorphism ─────────────────────────────── */
+.events-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 20;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid rgba(220, 192, 140, 0.38);
+  background: rgba(18, 13, 8, 0.30);
+  backdrop-filter: blur(16px) saturate(1.5);
+  -webkit-backdrop-filter: blur(16px) saturate(1.5);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 248, 220, 0.20),
+    0 4px 18px rgba(0, 0, 0, 0.30);
+  color: var(--clr-gold-pale);
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition:
+    background   0.3s ease,
+    border-color 0.3s ease,
+    opacity      0.3s ease,
+    transform    0.3s ease,
+    box-shadow   0.3s ease;
+  opacity: 0.82;
+  pointer-events: all;
+}
+
+.events-arrow:hover,
+.events-arrow:focus {
+  background: rgba(196, 164, 107, 0.22);
+  border-color: rgba(220, 192, 140, 0.70);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 248, 220, 0.30),
+    0 6px 24px rgba(0, 0, 0, 0.35),
+    0 0 12px rgba(196, 164, 107, 0.18);
+  opacity: 1;
+  transform: translateY(-50%) scale(1.08);
+  outline: none;
+}
+
+.events-arrow:disabled {
+  opacity: 0.18;
+  cursor: default;
+}
+
+.events-arrow--prev { left: clamp(6px, 2.5vw, 20px); }
+.events-arrow--next { right: clamp(6px, 2.5vw, 20px); }
+
+@media (max-width: 359px) {
+  .events-arrow { display: none; }
+}
+
+
+/* ─── Dot indicators ─────────────────────────────────────── */
+.events-dots {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  margin-top: clamp(1.4rem, 3.5vw, 2.4rem);
+}
+
+.events-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  border: none;
+  padding: 0;
+  background: rgba(247, 242, 234, 0.25);
+  cursor: pointer;
+  transition:
+    background 0.4s ease,
+    width      0.4s ease;
+}
+
+.events-dot.is-active {
+  background: var(--clr-gold-light);
+  width: 20px;
+  border-radius: 3px;
+}
+
+.events-dot:hover:not(.is-active),
+.events-dot:focus:not(.is-active) {
+  background: rgba(247, 242, 234, 0.5);
+  outline: none;
+}
+
+
+/* ─── Desktop tweaks ─────────────────────────────────────── */
+@media (min-width: 768px) {
+
+  .events-track {
+    padding: 3rem clamp(8vw, 13vw, 18vw);
+    gap: 32px;
+  }
+
+  .event-card {
+    flex: 0 0 clamp(300px, 30vw, 380px);
+    width:  clamp(300px, 30vw, 380px);
+    height: clamp(420px, 62vh, 560px);
+  }
+
+  .events-arrow {
+    width: 44px;
+    height: 44px;
+    font-size: 1.1rem;
+  }
+
+  .events-arrow--prev { left: clamp(14px, 3.5vw, 36px); }
+  .events-arrow--next { right: clamp(14px, 3.5vw, 36px); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   WARDROBE PLANNER — Section 04
+   Mobile-first · Watercolour luxury · Cinematic slide transitions
+═══════════════════════════════════════════════════════════════ */
+
+/* ─── Section shell ──────────────────────────────────────────── */
+.wardrobe {
+  position: relative;
+  width: 100%;
+  background: #F5EFE4;
+  max-width: 100vw;
+  overflow-x: hidden;           /* only block horizontal overflow, not vertical */
+  /* Stack header → rail selector → dress-code label → almirah */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: clamp(2rem, 6vw, 3.5rem);
+}
+
+/* ─── Subtle grain texture overlay (matches other sections) ──── */
+.wardrobe::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+
+/* ─── Header ─────────────────────────────────────────────────── */
+.wardrobe-header {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  align-self: stretch;          /* full width in flex column */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: clamp(2.8rem, 8vw, 4rem) 2rem clamp(1.4rem, 4vw, 2rem);
+
+  /* Cinematic scroll-in: long, slow, with a gentle de-blur */
+  opacity: 0;
+  transform: translateY(56px) scale(0.985);
+  filter: blur(8px);
+  transition:
+    opacity  1.8s var(--ease-expo),
+    transform 2.0s var(--ease-expo),
+    filter   1.6s var(--ease-expo);
+}
+
+.wardrobe-header.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: blur(0);
+}
+
+.wardrobe-section-num {
+  display: none;
+}
+
+/* Ornamental rule — matches invite section style */
+.wardrobe-title-rule {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  width: clamp(120px, 35vw, 220px);
+  margin-bottom: 1.1rem;
+}
+
+.wardrobe-rule-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--clr-gold-pale), transparent);
+}
+
+.wardrobe-rule-motif {
+  font-size: 0.5rem;
+  color: var(--clr-gold);
+  opacity: 0.8;
+  flex-shrink: 0;
+}
+
+.wardrobe-title {
+  /* Match Events section headline — Playfair Display, italic, light */
+  font-family: var(--font-serif);
+  font-size: clamp(2.4rem, 9vw, 4.8rem);
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1.1;
+  color: #3A2D1F;
+  margin-bottom: 0.6rem;
+  letter-spacing: 0.01em;
+}
+
+.wardrobe-subtitle {
+  font-family: var(--font-sans);
+  /* +20% from clamp(0.62rem, 2.1vw, 0.74rem) */
+  font-size: clamp(0.744rem, 2.52vw, 0.888rem);
+  font-weight: 200;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: #5A4F43;
+  opacity: 0.65;
+  line-height: 1.7;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   WARDROBE HANGING RAIL SELECTOR
+   Premium text-based event selector suspended from an antique
+   gold rod — no image buttons, no dark fills, no boxes.
+═══════════════════════════════════════════════════════════════ */
+
+/* ─── Outer wrapper — sits above the almirah, below the header ── */
+.wardrobe-btns {
+  position: relative;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 0 clamp(0.5rem, 3vw, 1.4rem);
+  pointer-events: auto;
+
+  /* Cinematic scroll-in */
+  opacity: 0;
+  transform: translateY(32px) scale(0.97);
+  filter: blur(5px);
+  transition:
+    opacity   1.8s 0.35s var(--ease-expo),
+    transform 2.0s 0.35s var(--ease-expo),
+    filter    1.6s 0.35s var(--ease-expo);
+}
+
+.wardrobe-btns.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: blur(0);
+}
+
+/* ─── The antique-gold rod ──────────────────────────────────── */
+.wardrobe-rail {
+  position: relative;
+  width: 100%;
+  height: 3px;
+  margin-bottom: 0;
+  /* Layered gradient: thin bright centre stripe on a warmer base */
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(180,140,70,0.25) 6%,
+    rgba(196,164,107,0.90) 18%,
+    rgba(222,192,142,1.00) 38%,
+    rgba(240,212,160,1.00) 50%,
+    rgba(222,192,142,1.00) 62%,
+    rgba(196,164,107,0.90) 82%,
+    rgba(180,140,70,0.25) 94%,
+    transparent 100%
+  );
+  border-radius: 2px;
+  /* Subtle sheen — thin highlight stripe above, shadow below */
+  box-shadow:
+    0 -1px 0 rgba(255,240,190,0.55),
+    0  1px 2px rgba(100,70,20,0.28),
+    0  2px 6px rgba(140,100,30,0.15);
+}
+
+/* Small decorative finials at each end of the rod */
+.wardrobe-rail::before,
+.wardrobe-rail::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #EDD9B2, #C4A46B 60%, #8A6B30);
+  box-shadow: 0 1px 3px rgba(100,70,20,0.4);
+}
+.wardrobe-rail::before { left:  -4px; }
+.wardrobe-rail::after  { right: -4px; }
+
+/* ─── Row of hanging items ──────────────────────────────────── */
+.wardrobe-rail-items {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;             /* always one row — never wrap */
+  align-items: flex-start;
+  justify-content: space-evenly;
+  width: 100%;
+  padding-top: 0;
+}
+
+/* ─── Each hanging event item ───────────────────────────────── */
+.wardrobe-btn {
+  /* Reset all button defaults */
+  appearance: none;
+  -webkit-appearance: none;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+
+  /* Layout: column — string then label */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  flex: 1;                       /* equal width slots so rail fills evenly */
+  min-width: 0;
+
+  /* Inactive: faded, smaller — elegantly receded */
+  opacity: 0.48;
+  transform: translateY(0) scale(0.97);
+  transition:
+    opacity   0.45s var(--ease-silk),
+    transform 0.45s var(--ease-silk);
+}
+
+/* Alternate hanging depths — odd buttons hang shorter, even hang MUCH longer */
+.wardrobe-btn:nth-child(odd)  .wardrobe-btn-string { height: clamp(10px, 2.5vw, 16px); }
+.wardrobe-btn:nth-child(even) .wardrobe-btn-string { height: clamp(44px, 11vw, 64px); }
+
+/* Active state: fully present, slightly larger */
+.wardrobe-btn.is-active {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Hover on pointer devices */
+@media (hover: hover) {
+  .wardrobe-btn:not(.is-active):hover {
+    opacity: 0.72;
+    transform: translateY(-1px) scale(0.985);
+  }
+}
+
+/* ─── The hanging string / clip ─────────────────────────────── */
+.wardrobe-btn-string {
+  display: block;
+  width: 1px;
+  height: clamp(8px, 2vw, 12px);  /* overridden per nth-child below */
+  background: linear-gradient(
+    to bottom,
+    rgba(196,164,107,0.90) 0%,
+    rgba(160,120,70,0.60) 100%
+  );
+  margin-bottom: 0;
+  position: relative;
+  flex-shrink: 0;
+}
+
+/* Small clip / ring where string meets the rod */
+.wardrobe-btn-string::before {
+  content: '';
+  position: absolute;
+  top: -3px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  border: 1px solid rgba(196,164,107,0.85);
+  background: radial-gradient(circle at 40% 40%, rgba(240,212,160,0.9), rgba(196,164,107,0.4));
+}
+
+/* Active: clip becomes a solid gold dot */
+.wardrobe-btn.is-active .wardrobe-btn-string::before {
+  background: radial-gradient(circle at 35% 35%, #EDD9B2, #C4A46B);
+  border-color: #C4A46B;
+  box-shadow: 0 0 4px rgba(196,164,107,0.5);
+}
+
+/* ─── Event name label ───────────────────────────────────────── */
+.wardrobe-btn-label {
+  display: block;
+  font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+  font-size: clamp(1.08rem, 3.9vw, 1.42rem);
+  font-weight: 500;
+  font-style: italic;
+  letter-spacing: 0.01em;
+  line-height: 1.2;
+  text-align: center;
+  color: #4A3520;
+  padding: 0 2px;
+  white-space: normal;
+  word-break: break-word;
+  max-width: clamp(120px, 35vw, 136px);
+  pointer-events: none;
+  position: relative;
+}
+
+/* Inactive label: lighter/faded warm sand */
+.wardrobe-btn:not(.is-active) .wardrobe-btn-label {
+  color: #8A7A65;
+}
+
+/* Active label: deep warm charcoal, underlined — max-width widened to prevent
+   "The Celestial Night" (longest label) from reflow-wrapping to 3 lines at bold weight */
+.wardrobe-btn.is-active .wardrobe-btn-label {
+  color: #1E1108;
+  font-weight: 700;
+  text-shadow: 0 1px 0 rgba(255,255,255,0.6);
+  max-width: clamp(140px, 42vw, 160px);
+}
+
+/* "The Celestial Night" is the longest label — bold weight pushes it to 3 lines.
+   Keep weight at 500 for this button only; colour/underline/shadow still apply. */
+.wardrobe-btn[data-event="sangeet"].is-active .wardrobe-btn-label {
+  font-weight: 500;
+}
+
+/* ─── Soft watercolour underline on active item ─────────────── */
+.wardrobe-btn-label::after {
+  content: '';
+  display: block;
+  height: 3px;
+  width: 0%;
+  margin: 4px auto 0;
+  border-radius: 2px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(196,164,107,0.55) 20%,
+    rgba(196,164,107,0.80) 50%,
+    rgba(196,164,107,0.55) 80%,
+    transparent
+  );
+  transition: width 0.5s var(--ease-silk);
+}
+
+.wardrobe-btn.is-active .wardrobe-btn-label::after {
+  width: 85%;
+}
+
+/* ─── Sub label (dress code) — hidden, kept for compat ──────── */
+.wardrobe-btn-sub  { display: none; }
+.wardrobe-btn-art  { display: none; } /* hide old image buttons if any remain */
+
+/* ─── Desktop: keep almirah nicely framed ─────────────────────── */
+@media (min-width: 520px) {
+  .wardrobe-btns {
+    max-width: 420px;
+  }
+
+  .wardrobe-btn-label {
+    max-width: 136px;
+  }
+
+  .wardrobe-scene {
+    max-width: 400px;
+  }
+}
+
+/* ─── Theme label — overlaid inside the scene, in the open space
+       above the almirah's gold hanging rod ── */
+.wardrobe-theme-label {
+  position: absolute;
+  z-index: 5;
+  top: 15%;
+  left: 0;
+  right: 0;
+  width: 100%;
+  text-align: center;
+  padding: 0 1rem;
+  pointer-events: none;
+
+  opacity: 0;
+  transform: translateY(14px) scale(0.97);
+  filter: blur(3px);
+  transition:
+    opacity  1.8s 0.55s var(--ease-expo),
+    transform 2.0s 0.55s var(--ease-expo),
+    filter   1.6s 0.55s var(--ease-expo);
+}
+
+.wardrobe-theme-label.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: blur(0);
+}
+
+.wardrobe-theme-text {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(1.8rem, 6.5vw, 2.6rem);
+  font-weight: 300;
+  font-style: italic;
+  color: #2E2219;
+  line-height: 1.15;
+  letter-spacing: 0.01em;
+  transition: opacity 0.35s var(--ease-silk);
+  text-shadow: 0 1px 0 rgba(255,255,255,0.55);
+}
+
+.wardrobe-theme-desc {
+  display: block;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(0.9rem, 3.2vw, 1.05rem);
+  font-weight: 700;
+  font-style: italic;
+  letter-spacing: 0.05em;
+  color: #2A1A08;
+  margin-top: 0.4rem;
+  /* Inline pill background ensures readability against any almirah background */
+  background: rgba(255, 252, 245, 0.72);
+  display: inline-block;
+  padding: 0.15em 0.7em 0.2em;
+  border-radius: 50px;
+  box-shadow: 0 1px 6px rgba(255,255,255,0.5);
+  /* No opacity !important — let JS transitions work cleanly */
+  transition: opacity 0.35s var(--ease-silk);
+  text-shadow: none;
+}
+
+
+/* ─── Wardrobe scene ─────────────────────────────────────────── */
+/*
+   The scene is a % padding-bottom container that preserves the
+   aspect ratio of Wardrobe.webp. All overlays use absolute %.
+
+   TUNING GUIDE (adjust these percentages to match your image):
+   ─────────────────────────────────────────────────────────────
+   --wd-outfit-top    : top edge of the hanging rail area
+   --wd-outfit-height : height of the rail / hanging area
+   --wd-outfit-left   : left edge of the almirah opening
+   --wd-outfit-width  : width of the almirah opening
+   --wd-shoe-top      : top edge of the lower shelf
+   --wd-shoe-height   : height of the shelf display area
+   --wd-shoe-left     : left edge of shoe display
+   --wd-shoe-width    : width of shoe display
+   ─────────────────────────────────────────────────────────────
+*/
+.wardrobe-scene {
+  --wd-outfit-top:    42%;
+  --wd-outfit-height: 42%;
+  --wd-outfit-left:   17%;
+  --wd-outfit-width:  66%;
+  --wd-shoe-top:      80%;
+  --wd-shoe-height:   13%;
+  --wd-shoe-left:     19%;
+  --wd-shoe-width:    62%;
+
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 420px;
+  align-self: center;
+  overflow: visible;
+  border-radius: 10px;
+
+  /* Aspect ratio 100:165 = 0.606 wide : 1 tall */
+  /* Fallback for very old browsers */
+  padding-bottom: 165%;
+  height: 0;
+
+  opacity: 0;
+  transform: translateY(72px) scale(0.965);
+  filter: blur(10px);
+  transition:
+    opacity   2.2s 0.75s var(--ease-expo),
+    transform 2.4s 0.75s var(--ease-expo),
+    filter   2.0s 0.75s var(--ease-expo);
+}
+
+/* Modern browsers: use aspect-ratio and let height be auto */
+@supports (aspect-ratio: 1) {
+  .wardrobe-scene {
+    aspect-ratio: 100 / 165;
+    padding-bottom: 0;
+    height: auto;
+  }
+}
+
+.wardrobe-scene.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: blur(0);
+}
+
+/* The almirah / wardrobe background image */
+.wardrobe-scene-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  /* contain ensures the FULL almirah is visible (no 20–30% cropped) */
+  object-fit: contain;
+  object-position: center top;
+  display: block;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* ─── Outfit viewport ────────────────────────────────────────── */
+/*
+   This is the clipping window that sits over the almirah opening.
+   overflow:hidden keeps outfits within the rail area.
+   Outfits slide horizontally as if on a clothes rail.
+*/
+.wardrobe-outfit-vp {
+  position: absolute;
+  top:    var(--wd-outfit-top);
+  left:   var(--wd-outfit-left);
+  width:  var(--wd-outfit-width);
+  height: var(--wd-outfit-height);
+  overflow: hidden;
+}
+
+/* Individual outfit images — hang from the rod with a gentle sway */
+.wardrobe-outfit-img {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: auto;
+  height: 100%;
+  max-width: none;
+  transform: translateX(calc(-50% + 115%)) rotate(0deg);
+  transform-origin: 50% 0%;          /* pivot at top — like hanging from rod */
+  opacity: 0;
+  will-change: transform, opacity;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+  /* Slow, dreamy slide — like garments drifting along a rail */
+  transition:
+    transform 3000ms cubic-bezier(0.16, 1, 0.3, 1),
+    opacity   1400ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Active outfit: centred, with a gentle pendulum settle */
+.wardrobe-outfit-img.is-active {
+  transform: translateX(-50%) rotate(0deg);
+  opacity: 1;
+  animation: wd-hanger-settle 3.2s cubic-bezier(0.22, 1, 0.36, 1) 0.25s;
+  transition:
+    transform 3000ms cubic-bezier(0.16, 1, 0.3, 1),
+    opacity   1400ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Subtle pendulum settle — "just hung up" feel */
+@keyframes wd-hanger-settle {
+  0%   { transform: translateX(-50%) rotate(0deg); }
+  35%  { transform: translateX(-50%) rotate(0.7deg); }
+  65%  { transform: translateX(-50%) rotate(-0.4deg); }
+  100% { transform: translateX(-50%) rotate(0deg); }
+}
+
+/* Exiting forward (going right→left): slide out to left */
+.wardrobe-outfit-img.is-exiting-fwd {
+  transform: translateX(calc(-50% - 118%)) rotate(-1.2deg);
+  opacity: 0;
+  transition:
+    transform 1800ms cubic-bezier(0.4, 0, 0.8, 1),
+    opacity    700ms cubic-bezier(0.4, 0, 1, 1);
+}
+
+/* Exiting backward (going left→right): slide out to right */
+.wardrobe-outfit-img.is-exiting-bwd {
+  transform: translateX(calc(-50% + 118%)) rotate(1.2deg);
+  opacity: 0;
+  transition:
+    transform 1800ms cubic-bezier(0.4, 0, 0.8, 1),
+    opacity    700ms cubic-bezier(0.4, 0, 1, 1);
+}
+
+/* Entering from right (going forward) */
+.wardrobe-outfit-img.is-entering-fwd {
+  transform: translateX(calc(-50% + 118%)) rotate(1.2deg);
+  opacity: 0;
+  transition: none;
+}
+
+/* Entering from left (going backward) */
+.wardrobe-outfit-img.is-entering-bwd {
+  transform: translateX(calc(-50% - 118%)) rotate(-1.2deg);
+  opacity: 0;
+  transition: none;
+}
+
+
+/* ─── Footwear viewport ──────────────────────────────────────── */
+.wardrobe-footwear-vp {
+  position: absolute;
+  top:    var(--wd-shoe-top);
+  left:   var(--wd-shoe-left);
+  width:  var(--wd-shoe-width);
+  height: var(--wd-shoe-height);
+  overflow: hidden;
+}
+
+/* Individual footwear images — same horizontal slide as outfits */
+.wardrobe-footwear-img {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 92%;
+  height: auto;
+  max-width: none;
+  transform: translateX(calc(-50% + 115%));
+  opacity: 0;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+  will-change: transform, opacity;
+  transition:
+    transform 3000ms cubic-bezier(0.16, 1, 0.3, 1),
+    opacity   1400ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.wardrobe-footwear-img.is-active {
+  transform: translateX(-50%);
+  opacity: 1;
+  transition:
+    transform 3000ms cubic-bezier(0.16, 1, 0.3, 1),
+    opacity   1400ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.wardrobe-footwear-img.is-exiting-fwd {
+  transform: translateX(calc(-50% - 118%));
+  opacity: 0;
+  transition:
+    transform 1800ms cubic-bezier(0.4, 0, 0.8, 1),
+    opacity    700ms cubic-bezier(0.4, 0, 1, 1);
+}
+
+.wardrobe-footwear-img.is-exiting-bwd {
+  transform: translateX(calc(-50% + 118%));
+  opacity: 0;
+  transition:
+    transform 1800ms cubic-bezier(0.4, 0, 0.8, 1),
+    opacity    700ms cubic-bezier(0.4, 0, 1, 1);
+}
+
+.wardrobe-footwear-img.is-entering-fwd {
+  transform: translateX(calc(-50% + 118%));
+  opacity: 0;
+  transition: none;
+}
+
+.wardrobe-footwear-img.is-entering-bwd {
+  transform: translateX(calc(-50% - 118%));
+  opacity: 0;
+  transition: none;
+}
+
+
+/* ─── Desktop: keep almirah nicely framed (not too big) ───────── */
+@media (min-width: 520px) {
+  .wardrobe-btns {
+    max-width: 420px;
+  }
+
+  .wardrobe-btn-label {
+    max-width: 136px;
+  }
+
+  .wardrobe-btn.is-active .wardrobe-btn-label {
+    max-width: 160px;
+  }
+
+  .wardrobe-scene {
+    max-width: 400px;   /* keep wardrobe compact on tablet/desktop */
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   BLESSINGS BY THE SHORE — Section 05
+   Mobile-first · Coastal Luxury · Warm Ivory & Champagne Gold
+═══════════════════════════════════════════════════════════════ */
+
+/* ─── Section shell ──────────────────────────────────────────── */
+.blessings {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding:
+    calc(60px + var(--safe-t))
+    0
+    calc(80px + var(--safe-b))
+    0;
+}
+
+/* ─── Background ─────────────────────────────────────────────── */
+.blessings-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.blessings-bg-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  will-change: transform;
+}
+
+.blessings-vignette {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to bottom,
+      rgba(18, 10, 4, 0.42) 0%,
+      rgba(18, 10, 4, 0.10) 28%,
+      rgba(18, 10, 4, 0.08) 60%,
+      rgba(18, 10, 4, 0.62) 100%
+    );
+  pointer-events: none;
+}
+
+/* ─── Petals ─────────────────────────────────────────────────── */
+.blessings-petals {
+  position: absolute;
+  inset: 0;
+  z-index: 6;   /* above card-wrap (4) so petals drift over the text */
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.blessings-petal {
+  position: absolute;
+  top: -60px;
+  opacity: 0;
+  will-change: transform, opacity;
+  animation: blessingsPetalFall linear infinite;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+@keyframes blessingsPetalFall {
+  0% {
+    transform: translateY(0) rotate(0deg) translateX(0);
+    opacity: 0;
+  }
+  7% {
+    opacity: 0.72;
+  }
+  88% {
+    opacity: 0.55;
+  }
+  100% {
+    transform: translateY(112vh) rotate(380deg) translateX(var(--petal-drift, 28px));
+    opacity: 0;
+  }
+}
+
+/* ─── Diyas strip ────────────────────────────────────────────── */
+.blessings-diyas {
+  position: absolute;
+  bottom: calc(10px + var(--safe-b));
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  width: min(94%, 500px);
+  pointer-events: none;
+  will-change: transform;
+}
+
+.blessings-diyas-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 0 22px rgba(214, 140, 30, 0.50));
+}
+
+/* ─── Card wrap (controls reveal animation) ─────────────────── */
+.blessings-card-wrap {
+  position: relative;
+  z-index: 4;
+  width: min(96%, 500px);
+  opacity: 0;
+  transform: translateY(30px);
+  transition:
+    opacity 1.2s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.blessings-card-wrap.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── Card itself ────────────────────────────────────────────── */
+.blessings-card {
+  position: relative;
+  border-radius: 3px;
+  overflow: hidden;
+  box-shadow:
+    0 2px 8px  rgba(20, 10, 2, 0.20),
+    0 10px 32px rgba(20, 10, 2, 0.24),
+    0 28px 72px rgba(20, 10, 2, 0.16),
+    inset 0 1px 0 rgba(255, 240, 200, 0.40);
+}
+
+.blessings-card-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  display: block;
+  z-index: 0;
+}
+
+/* ─── Card content ───────────────────────────────────────────── */
+.blessings-card-content {
+  position: relative;
+  z-index: 1;
+  padding: 20px 28px 80px;
+  text-align: center;
+}
+
+/* ─── Section number ─────────────────────────────────────────── */
+.blessings-section-num {
+  font-family: var(--font-caps);
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  color: #B88945;
+  opacity: 0.50;
+  margin-bottom: 6px;
+}
+
+/* ─── Rules ──────────────────────────────────────────────────── */
+.blessings-rule {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 auto 18px;
+  width: min(80%, 240px);
+  opacity: 0;
+  transform: scaleX(0.65);
+  transition:
+    opacity 1.0s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.blessings-rule.is-visible {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+.blessings-rule-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(184, 137, 69, 0.65), transparent);
+}
+
+.blessings-rule-motif {
+  font-size: 9px;
+  color: #B88945;
+  opacity: 0.85;
+  flex-shrink: 0;
+}
+
+.blessings-rule--top  { margin-bottom: 6px; }
+.blessings-rule--mid  { margin-top: 0px; margin-bottom: 8px; }
+.blessings-rule--close { margin-top: 4px; margin-bottom: 6px; }
+
+.blessings-inner-rule {
+  margin: 3px auto;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.blessings-inner-rule.is-visible {
+  opacity: 1;
+}
+
+.blessings-inner-rule--tight {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.blessings-inner-dot {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  letter-spacing: 0.30em;
+  color: #B88945;
+  opacity: 0.45;
+}
+
+/* ─── Heading & subtext ──────────────────────────────────────── */
+.blessings-heading {
+  font-family: var(--font-serif);
+  font-size: clamp(24px, 7vw, 36px);
+  font-weight: 300;
+  font-style: italic;
+  color: #2A1C12;
+  line-height: 1.15;
+  margin-bottom: 4px;
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 1.0s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.blessings-heading.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.blessings-subtext {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(11.5px, 3vw, 13px);
+  color: #7A6048;
+  line-height: 1.6;
+  margin-bottom: 0;
+  opacity: 0;
+  transform: translateY(10px);
+  transition:
+    opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.10s,
+    transform 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.10s;
+}
+
+.blessings-subtext.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── Family groups ──────────────────────────────────────────── */
+.blessings-group {
+  margin-bottom: 0px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition:
+    opacity 0.88s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 1.08s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.blessings-group.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.blessings-group-label {
+  font-family: var(--font-caps);
+  font-size: 8.5px;
+  letter-spacing: 0.20em;
+  color: #B88945;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.blessings-group-names {
+  font-family: var(--font-serif);
+  font-size: clamp(10.5px, 2.7vw, 12.5px);
+  color: #4B382A;
+  line-height: 1.75;
+  font-weight: 400;
+}
+
+/* ─── Regards line — above the couple names in the footer ───── */
+.blessings-regards-label {
+  font-family: var(--font-caps);
+  font-size: 9px;
+  letter-spacing: 0.20em;
+  text-transform: uppercase;
+  color: #F5DFA0;
+  text-shadow: 0 1px 6px rgba(10,5,2,0.60);
+  margin-bottom: 3px;
+}
+
+.blessings-regards-name {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(14px, 3.54vw, 18px);
+  color: #FAF0D8;
+  line-height: 1.4;
+  text-shadow: 0 1px 6px rgba(10,5,2,0.60);
+  margin-bottom: 28px;
+}
+
+/* ─── Footer — below the card, above the diyas ───────────────── */
+.blessings-footer {
+  position: relative;
+  z-index: 5;
+  text-align: center;
+  margin-top: 18px;
+  padding-bottom: 8px;
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 1.1s cubic-bezier(0.22, 1, 0.36, 1) 0.2s,
+    transform 1.3s cubic-bezier(0.16, 1, 0.3, 1) 0.2s;
+}
+
+.blessings-footer.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Kept for backwards compat — no longer rendered but JS may target it */
+.blessings-closing { display: none; }
+
+.blessings-closing-names {
+  font-family: 'Great Vibes', 'Pinyon Script', cursive;
+  font-size: clamp(32px, 9vw, 48px);
+  color: #FFF8EE;
+  line-height: 1.0;
+  margin-bottom: 4px;
+  text-shadow:
+    0 1px 0  rgba(20,10,4,0.35),
+    0 3px 12px rgba(10,5,2,0.55),
+    0 6px 24px rgba(10,5,2,0.30);
+}
+
+.blessings-closing-date {
+  font-family: var(--font-caps);
+  font-size: 10px;
+  letter-spacing: 0.26em;
+  color: #F5DFA0;
+  margin-bottom: 3px;
+  text-shadow: 0 1px 6px rgba(10,5,2,0.60);
+}
+
+.blessings-closing-venue {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 13.5px;
+  color: #FAF0D8;
+  letter-spacing: 0.05em;
+  margin-bottom: 0;
+  text-shadow: 0 1px 8px rgba(10,5,2,0.55);
+}
+
+/* ─── Reduced motion overrides ───────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .blessings-petal { animation: none !important; display: none; }
+
+  .blessings-card-wrap,
+  .blessings-heading,
+  .blessings-subtext,
+  .blessings-rule,
+  .blessings-inner-rule,
+  .blessings-group,
+  .blessings-closing {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+/* ─── Tablet / desktop ───────────────────────────────────────── */
+@media (min-width: 520px) {
+  .blessings-card-wrap {
+    width: min(96%, 500px);
+  }
+
+  .blessings-card-content {
+    padding: 24px 36px 88px;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   MUSIC PLAYER BUTTON
+   Floating vinyl icon — bottom right corner, above safe-area
+═══════════════════════════════════════════════════════════════ */
+
+.music-btn {
+  /* Positioning */
+  position: fixed;
+  right: 20px;
+  bottom: calc(24px + var(--safe-b, 0px));
+  z-index: 900;
+
+  /* Sizing & shape */
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid rgba(196, 164, 107, 0.35);
+  padding: 0;
+  cursor: pointer;
+
+  /* Colour — warm gold on near-black glass */
+  background: rgba(18, 14, 10, 0.72);
+  color: var(--clr-gold-light);
+  backdrop-filter: blur(12px) saturate(1.4);
+  -webkit-backdrop-filter: blur(12px) saturate(1.4);
+
+  /* Appear animation */
+  opacity: 0;
+  transform: translateY(10px) scale(0.88);
+  transition:
+    opacity 0.6s var(--ease-silk),
+    transform 0.6s var(--ease-silk),
+    background 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+
+  /* Kill default button chrome */
+  -webkit-appearance: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+}
+
+/* Revealed state (added by JS after music starts) */
+.music-btn.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Hover / focus — soft gold glow */
+.music-btn:hover,
+.music-btn:focus-visible {
+  background: rgba(24, 18, 12, 0.88);
+  border-color: rgba(196, 164, 107, 0.65);
+  box-shadow:
+    0 0 0 3px rgba(196, 164, 107, 0.12),
+    0 8px 24px rgba(0, 0, 0, 0.45);
+}
+
+/* Active press feedback */
+.music-btn:active {
+  transform: scale(0.93);
+  transition-duration: 0.1s;
+}
+
+/* SVG icon containers */
+.music-btn-icon {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.3s ease, transform 0.3s var(--ease-silk);
+}
+
+/* Playing icon — shown by default */
+.music-btn-icon--playing {
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+}
+
+/* Paused icon — hidden by default */
+.music-btn-icon--paused {
+  opacity: 0;
+  transform: scale(0.75) rotate(-20deg);
+}
+
+/* When music is paused — swap icon visibility */
+.music-btn.is-paused .music-btn-icon--playing {
+  opacity: 0;
+  transform: scale(0.75) rotate(20deg);
+}
+
+.music-btn.is-paused .music-btn-icon--paused {
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+}
+
+/* Vinyl spin animation — subtle, not distracting */
+@keyframes vinyl-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.music-btn:not(.is-paused) .music-btn-icon--playing svg {
+  animation: vinyl-spin 8s linear infinite;
+}
+
+/* Pause animation when music is paused */
+.music-btn.is-paused .music-btn-icon--playing svg {
+  animation-play-state: paused;
+}
+
+/* Accessibility — hide button until music has started */
+.music-btn[hidden] {
+  display: none !important;
+}
+
+/* Tablet/desktop — slightly larger touch target */
+@media (min-width: 520px) {
+  .music-btn {
+    right: 28px;
+    bottom: calc(28px + var(--safe-b, 0px));
+    width: 52px;
+    height: 52px;
+  }
+
+  .music-btn-icon {
+    width: 30px;
+    height: 30px;
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   RSVP SECTION — Section 07
+═══════════════════════════════════════════════════════════════ */
+.rsvp {
+  position: relative;
+  width: 100%;
+  padding: clamp(64px, 10vh, 96px) 32px clamp(56px, 9vh, 84px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  /* Top gradient bridges from blessings dark bottom to ivory; rest is warm ivory */
+  background:
+    radial-gradient(ellipse 80% 55% at 50% 42%, rgba(196, 164, 107, 0.12) 0%, transparent 62%),
+    linear-gradient(180deg,
+      #1C1914 0%,
+      #EDE6D6 12%,
+      #F7F2EA 35%,
+      #F7F2EA 68%,
+      #EDE6D6 100%
+    );
+}
+
+/* No top border — gradient transition already bridges from dark blessings section */
+
+.rsvp-inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 390px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ── Top ornamental rule ── */
+.rsvp-rule {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 56px;
+  margin: 0 auto 1.4rem;
+}
+
+.rsvp-rule-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(196, 164, 107, 0.52), transparent);
+}
+
+.rsvp-rule-diamond {
+  font-size: 0.26rem;
+  color: #C4A46B;
+  opacity: 0.65;
+  line-height: 1;
+}
+
+/* ── RSVP heading ── */
+.rsvp-heading {
+  font-family: var(--font-caps);
+  font-size: clamp(1.875rem, 7vw, 2.375rem);
+  font-weight: 400;
+  letter-spacing: 0.44em;
+  color: #2A2520;
+  margin-bottom: 0.6rem;
+}
+
+/* ── Sub-rule below heading ── */
+.rsvp-sub-rule {
+  width: 28px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(196, 164, 107, 0.55), transparent);
+  margin-bottom: 2.2rem;
+}
+
+/* ── Contact list — open rows, no boxes ── */
+.rsvp-contacts {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
+.rsvp-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.85rem 0;
+}
+
+.rsvp-row + .rsvp-row {
+  border-top: 1px solid rgba(196, 164, 107, 0.18);
+}
+
+/* ── Name + number stack ── */
+.rsvp-identity {
+  flex: 1;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 0.18rem;
+}
+
+.rsvp-name {
+  font-family: var(--font-serif);
+  font-size: clamp(0.875rem, 3.5vw, 0.96rem);
+  font-weight: 500;
+  font-style: italic;
+  letter-spacing: 0.02em;
+  color: #2A2520;
+}
+
+.rsvp-num {
+  font-family: var(--font-sans);
+  font-size: clamp(0.75rem, 3vw, 0.82rem);
+  font-weight: 300;
+  letter-spacing: 0.18em;
+  color: #7A6555;
+}
+
+/* ── Icon pair ── */
+.rsvp-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.38rem;
+  flex-shrink: 0;
+}
+
+.rsvp-action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.22s ease, transform 0.22s var(--ease-silk);
+}
+
+.rsvp-action svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+.rsvp-action--phone {
+  background: rgba(196, 164, 107, 0.14);
+  border: 1px solid rgba(196, 164, 107, 0.30);
+  color: #9A7235;
+}
+
+.rsvp-action--wa {
+  background: rgba(196, 164, 107, 0.20);
+  border: 1px solid rgba(196, 164, 107, 0.36);
+  color: #7A5820;
+}
+
+.rsvp-action:active { transform: scale(0.91); }
+
+@media (hover: hover) {
+  .rsvp-action--phone:hover,
+  .rsvp-action--wa:hover {
+    background: rgba(196, 164, 107, 0.30);
+    border-color: rgba(196, 164, 107, 0.52);
+    transform: translateY(-1px);
+  }
+}
+
+/* ── Entrance animations ── */
+.rsvp-rule,
+.rsvp-heading,
+.rsvp-sub-rule,
+.rsvp-row {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.65s var(--ease-silk), transform 0.65s var(--ease-silk);
+}
+
+.rsvp.is-revealed .rsvp-rule     { opacity: 1; transform: none; transition-delay: 0ms;   }
+.rsvp.is-revealed .rsvp-heading  { opacity: 1; transform: none; transition-delay: 90ms;  }
+.rsvp.is-revealed .rsvp-sub-rule { opacity: 1; transform: none; transition-delay: 160ms; }
+.rsvp.is-revealed .rsvp-row:nth-child(1) { opacity: 1; transform: none; transition-delay: 230ms; }
+.rsvp.is-revealed .rsvp-row:nth-child(2) { opacity: 1; transform: none; transition-delay: 315ms; }
+.rsvp.is-revealed .rsvp-row:nth-child(3) { opacity: 1; transform: none; transition-delay: 400ms; }
+.rsvp.is-revealed .rsvp-row:nth-child(4) { opacity: 1; transform: none; transition-delay: 485ms; }
+.rsvp.is-revealed .rsvp-row:nth-child(5) { opacity: 1; transform: none; transition-delay: 570ms; }
+
+@keyframes rsvp-glow {
+  from { text-shadow: none; }
+  to   { text-shadow: 0 0 28px rgba(196, 164, 107, 0.22); }
+}
+.rsvp.is-revealed .rsvp-heading {
+  animation: rsvp-glow 2.8s ease-in-out 0.7s infinite alternate;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rsvp-rule,
+  .rsvp-heading,
+  .rsvp-sub-rule,
+  .rsvp-row {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+@media (min-width: 520px) {
+  .rsvp-row { padding: 0.95rem 0; }
+}
+
+/* ── Local additions ── */
+.event-card-map { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.blessings-closing-map { display: inline-block; margin-top: 14px; font-family: 'Jost', sans-serif; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: inherit; text-decoration: none; border: 1px solid currentColor; border-radius: 999px; padding: 9px 20px; opacity: 0.85; }
+[data-hidden-by-config] { display: none !important; }

@@ -1,0 +1,409 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="color-scheme" content="only light">
+<style>:root,html,body{color-scheme:only light}</style>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="description" content="Reet & Shubhangee Wedding Celebration — 1st & 2nd January 2027, Shree Anantay, Ujjain" />
+  <title>Reet &amp; Shubhangee — Wedding Celebration</title>
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Reet & Shubhangee — Wedding Celebration" />
+  <meta property="og:description" content="Reet & Shubhangee Wedding Celebration — 1st & 2nd January 2027, Shree Anantay, Ujjain" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Reet & Shubhangee — Wedding Celebration" />
+  <meta name="twitter:description" content="Reet & Shubhangee Wedding Celebration — 1st & 2nd January 2027, Shree Anantay, Ujjain" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=Pinyon+Script&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Great+Vibes&family=Jost:wght@200;300;400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+
+  <link rel="preload" as="image"
+        href="assets/Intro/Intro_Poster.webp"
+        fetchpriority="high" />
+
+  <link rel="preload" as="script"
+        href="script.js" />
+  </head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════
+       INTRO SCREEN
+  ═══════════════════════════════════════════════════════ -->
+  <section
+    id="intro-screen"
+    class="intro-screen"
+    aria-label="Wedding intro screen"
+    role="button"
+    tabindex="0"
+    aria-label="Tap to begin the celebration"
+  >
+
+    <video
+      id="intro-video"
+      class="intro-video"
+      poster="assets/Intro/Intro_Poster.webp"
+      muted
+      playsinline
+      webkit-playsinline="true"
+      x5-playsinline="true"
+      disableRemotePlayback
+      preload="auto"
+      aria-hidden="true"
+    >
+      <source src="assets/Intro/Intro_Section.webm" type="video/webm" />
+      <source src="assets/Intro/intro_section.mp4"  type="video/mp4" />
+    </video>
+
+    <div id="intro-tap-hint" class="intro-tap-hint" aria-hidden="true">
+      <p class="intro-tap-label">Tap to Begin the</p>
+      <p class="intro-tap-label intro-tap-label--sub">Celebration</p>
+    </div>
+
+    <div class="intro-vignette" aria-hidden="true"></div>
+
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       MAIN CONTENT
+  ═══════════════════════════════════════════════════════ -->
+  <div id="white-flash" class="white-flash" aria-hidden="true"></div>
+
+  <main id="main-content" class="main-content" aria-hidden="true">
+
+    <!-- ─── HERO ─── -->
+    <section id="hero" class="hero" aria-label="Reet and Shubhangee Wedding">
+
+      <div class="hero-bg" aria-hidden="true">
+        <img src="assets/Hero/Hero_Background.jpeg" alt="" class="hero-bg-img" draggable="false" />
+        <div class="hero-bg-overlay"></div>
+      </div>
+
+      <canvas id="hero-birds" class="hero-birds" aria-hidden="true"></canvas>
+
+      <div class="hero-content" id="hero-content">
+
+        <p class="hero-eyebrow">The Wedding Celebration of</p>
+
+        <h1 class="hero-names">
+          <span class="hero-name">Reet</span>
+          <span class="hero-ampersand" aria-hidden="true">&amp;</span>
+          <span class="hero-name">Shubhangee</span>
+        </h1>
+
+        <div class="hero-divider" aria-hidden="true">
+          <span class="hero-divider-line"></span>
+          <span class="hero-divider-diamond">◆</span>
+          <span class="hero-divider-line"></span>
+        </div>
+
+        <div class="hero-meta">
+          <p class="hero-date">1st &amp; 2nd January 2027</p>
+          <div class="hero-meta-divider" aria-hidden="true"></div>
+          <p class="hero-venue">Shree Anantay, Ujjain</p>
+        </div>
+
+        <a href="#invite" class="hero-scroll-cta" aria-label="Scroll to view invitation">
+          <span>Scroll to view invitation</span>
+          <div class="hero-scroll-arrow" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </a>
+
+      </div>
+    </section>
+
+
+    <!-- ─── INVITE SECTION ─── -->
+    <section id="invite" class="invite" aria-label="Wedding Invitation">
+
+      <div class="invite-bg" aria-hidden="true">
+        <img
+          src="assets/invite/Invite_Background.webp"
+          alt=""
+          class="invite-bg-img"
+          draggable="false"
+        />
+        <div class="invite-bg-overlay"></div>
+      </div>
+
+      <div class="invite-ornament invite-ornament--top" aria-hidden="true" data-invite-parallax="-0.06">
+        <img src="assets/invite/Invite_Top_Ornament.webp" alt="" class="invite-ornament-img" draggable="false" />
+      </div>
+
+      <div class="invite-ornament invite-ornament--bottom" aria-hidden="true" data-invite-parallax="0.06">
+        <img src="assets/invite/Invite_Bottom_Accent.webp" alt="" class="invite-ornament-img" draggable="false" />
+      </div>
+
+      <div class="invite-card"></div><!-- /invite-card -->
+
+    </section>
+
+
+    <!-- ═══════════════════════════════════════════════════════
+         WEDDING WEEKEND EVENTS — Section 03
+    ═══════════════════════════════════════════════════════ -->
+    <section id="events" class="events" aria-label="Wedding Weekend Events">
+
+      <div class="events-bg" aria-hidden="true">
+        <img
+          src="assets/Event/Event_bg.webp"
+          alt=""
+          class="events-bg-img"
+          draggable="false"
+          onerror="this.style.display='none'"
+        />
+        <div class="events-bg-overlay"></div>
+      </div>
+
+      <header class="events-header" data-events-header>
+        <p class="events-section-num" aria-hidden="true">03</p>
+
+        <div class="events-title-rule" aria-hidden="true">
+          <span class="events-rule-line"></span>
+          <span class="events-rule-motif">✦</span>
+          <span class="events-rule-line"></span>
+        </div>
+
+        <h2 class="events-title">Wedding Weekend Events</h2>
+
+        <p class="events-subtitle">A celebration by the shore,<br aria-hidden="true" /> one moment at a time</p>
+      </header>
+
+      <div
+        class="events-carousel-wrap"
+        role="region"
+        aria-label="Wedding events carousel"
+        aria-roledescription="carousel"
+      >
+
+        <button
+          class="events-arrow events-arrow--prev"
+          id="events-prev"
+          aria-label="Previous event"
+          type="button"
+        >
+          <span aria-hidden="true">&#8592;</span>
+        </button>
+
+        <div class="events-track" id="events-track" aria-live="polite"></div>
+
+        <button
+          class="events-arrow events-arrow--next"
+          id="events-next"
+          aria-label="Next event"
+          type="button"
+        >
+          <span aria-hidden="true">&#8594;</span>
+        </button>
+
+      </div>
+
+      <div class="events-dots" id="events-dots" role="tablist" aria-label="Event navigation"></div>
+
+    </section>
+
+
+    <!-- ─── WARDROBE PLANNER ─── -->
+    <section id="wardrobe" class="wardrobe" aria-label="Wardrobe Planner">
+
+      <header class="wardrobe-header" data-wardrobe-header>
+        <p class="wardrobe-section-num" aria-hidden="true">04</p>
+
+        <div class="wardrobe-title-rule" aria-hidden="true">
+          <span class="wardrobe-rule-line"></span>
+          <span class="wardrobe-rule-motif">✦</span>
+          <span class="wardrobe-rule-line"></span>
+        </div>
+
+        <h2 class="wardrobe-title">Wardrobe Planner</h2>
+        <p class="wardrobe-subtitle">Dress codes &amp; colour palettes<br aria-hidden="true" /> for each event.</p>
+      </header>
+
+      <div class="wardrobe-scene" id="wardrobe-scene" aria-hidden="true">
+
+        <img
+          src="assets/wardrobe/Wardrobe.webp"
+          alt=""
+          class="wardrobe-scene-img"
+          draggable="false"
+        />
+
+        <div
+          class="wardrobe-btns"
+          id="wardrobe-btns"
+          role="tablist"
+          aria-label="Select event to view outfit"
+        ></div>
+
+        <div class="wardrobe-outfit-vp" id="wardrobe-outfit-vp"></div>
+
+        <div class="wardrobe-footwear-vp" id="wardrobe-footwear-vp"></div>
+
+      </div><!-- /wardrobe-scene -->
+
+    </section>
+
+    <!-- ─── BLESSINGS BY THE SHORE ─── -->
+    <section id="blessings" class="blessings" aria-label="With Love and Blessings">
+
+      <div class="blessings-bg" aria-hidden="true">
+        <img
+          src="assets/blessings/blessings-bg.webp"
+          alt=""
+          class="blessings-bg-img"
+          draggable="false"
+        />
+        <div class="blessings-vignette"></div>
+      </div>
+
+      <div class="blessings-petals" id="blessings-petals" aria-hidden="true"></div>
+
+      <div class="blessings-card-wrap" id="blessings-card-wrap">
+
+        <div class="blessings-card" id="blessings-card">
+
+          <img
+            src="assets/blessings/blessings-card.webp"
+            alt=""
+            class="blessings-card-bg"
+            draggable="false"
+            aria-hidden="true"
+          />
+
+          <div class="blessings-card-content"></div><!-- /blessings-card-content -->
+        </div><!-- /blessings-card -->
+      </div><!-- /blessings-card-wrap -->
+
+      <div class="blessings-footer" data-blessings-reveal></div>
+
+    </section>
+
+
+    <!-- ─── RSVP ─── -->
+    <section id="rsvp" class="rsvp" aria-label="RSVP">
+
+      <div class="rsvp-inner">
+
+        <div class="rsvp-rule" aria-hidden="true">
+          <span class="rsvp-rule-line"></span>
+          <span class="rsvp-rule-diamond">◆</span>
+          <span class="rsvp-rule-line"></span>
+        </div>
+
+        <h2 class="rsvp-heading">RSVP</h2>
+        <div class="rsvp-sub-rule" aria-hidden="true"></div>
+
+        <ul class="rsvp-contacts" aria-label="Contact numbers"></ul>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ═══════════════════════════════════════════════════════
+       BACKGROUND MUSIC
+  ═══════════════════════════════════════════════════════ -->
+  <audio
+    id="bg-music"
+    src="assets/music/Tum_ho_toh.mp3"
+    loop
+    preload="auto"
+    aria-hidden="true"
+  ></audio>
+
+  <button
+    id="music-btn"
+    class="music-btn"
+    aria-label="Pause music"
+    title="Toggle music"
+    hidden
+  >
+    <span class="music-btn-icon music-btn-icon--playing" aria-hidden="true">
+      <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="18" cy="18" r="16" stroke="currentColor" stroke-width="1.2" opacity="0.55"/>
+        <circle cx="18" cy="18" r="10" stroke="currentColor" stroke-width="0.8" opacity="0.35"/>
+        <circle cx="18" cy="18" r="4.5" fill="currentColor" opacity="0.75"/>
+        <circle cx="18" cy="18" r="1.6" fill="none" stroke="var(--clr-charcoal)" stroke-width="1.2"/>
+        <line x1="23" y1="9" x2="23" y2="16" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+        <path d="M23 9 C26 10, 27 12.5, 25 14" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+        <ellipse cx="21" cy="16.5" rx="2.2" ry="1.6" transform="rotate(-15 21 16.5)" fill="currentColor"/>
+      </svg>
+    </span>
+    <span class="music-btn-icon music-btn-icon--paused" aria-hidden="true">
+      <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="18" cy="18" r="16" stroke="currentColor" stroke-width="1.2" opacity="0.3"/>
+        <circle cx="18" cy="18" r="10" stroke="currentColor" stroke-width="0.8" opacity="0.2"/>
+        <circle cx="18" cy="18" r="4.5" fill="currentColor" opacity="0.35"/>
+        <circle cx="18" cy="18" r="1.6" fill="none" stroke="var(--clr-charcoal)" stroke-width="1.2"/>
+        <path d="M16 13.5 L16 22.5 L24 18 Z" fill="currentColor" opacity="0.9"/>
+      </svg>
+    </span>
+  </button>
+
+  <script src="config.js"></script>
+  <script src="apply.js"></script>
+  <script src="script.js"></script>
+
+  <!-- Fallback petal spawner — fires only if the main script didn't already
+       populate the container (guards against IntersectionObserver edge-cases). -->
+  <script>
+  (function () {
+    var petalSrc = 'assets/blessings/blessings-petal.webp';
+    var spawned  = false;
+
+    function spawnIfNeeded () {
+      if (spawned) return;
+      var container = document.getElementById('blessings-petals');
+      if (!container) return;
+      if (container.children.length > 0) { spawned = true; return; } // main script handled it
+      spawned = true;
+
+      for (var i = 0; i < 16; i++) {
+        var img = document.createElement('img');
+        img.src       = petalSrc;
+        img.alt       = '';
+        img.className = 'blessings-petal';
+        img.setAttribute('aria-hidden', 'true');
+        img.draggable = false;
+        var size  = 18 + Math.random() * 22;
+        var left  = Math.random() * 100;
+        var dur   = 10 + Math.random() * 14;
+        var delay = Math.random() * 18;
+        var drift = (Math.random() - 0.5) * 90;
+        var rot   = Math.random() * 360;
+        img.style.cssText =
+          'width:' + size + 'px;' +
+          'left:'  + left + '%;' +
+          '--petal-drift:' + drift + 'px;' +
+          'animation-duration:'  + dur   + 's;' +
+          'animation-delay:-'    + delay + 's;' +
+          'transform:rotate('    + rot   + 'deg);' +
+          'filter:drop-shadow(0 1px 3px rgba(180,80,40,0.16));';
+        container.appendChild(img);
+      }
+    }
+
+    var section = document.getElementById('blessings');
+    if (!section) return;
+
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries, obs) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          obs.unobserve(entry.target);
+          spawnIfNeeded();
+        });
+      }, { threshold: 0.06, rootMargin: '0px 0px -5% 0px' }).observe(section);
+    } else {
+      spawnIfNeeded();
+    }
+  })();
+  </script></body>
+</html>
