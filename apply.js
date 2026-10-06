@@ -6,13 +6,119 @@
 
   function esc (t) {
     return String(t == null ? '' : t)
-      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\"/g, '&quot;');
   }
   function $ (sel) { return document.querySelector(sel); }
   function text (sel, val) { var el = $(sel); if (el && val != null) el.textContent = val; }
   function html (sel, val) { var el = $(sel); if (el && val != null) el.innerHTML = val; }
   function lines (arr) { return (arr || []).map(esc).join('<br />'); }
   function hide (sel) { var el = $(sel); if (el) el.setAttribute('data-hidden-by-config', ''); }
+
+  /* ── Invitation reference layout ──────────────────────────
+     Layout-only override. Existing site styling/assets/behaviour
+     stay intact; this arranges the invitation text in the order
+     shown in the handwritten reference.
+  ──────────────────────────────────────────────────────────── */
+  var inviteLayoutStyle = document.createElement('style');
+  inviteLayoutStyle.id = 'invite-reference-layout';
+  inviteLayoutStyle.textContent = `
+    /* Neutralise the previous invitation-layout override */
+    .invite { min-height: 100vh; align-items: flex-start; }
+    .invite-card {
+      max-width: 560px;
+      width: 100%;
+      min-height: 100vh;
+      padding: 5.5rem 2rem 8rem;
+      justify-content: flex-start;
+    }
+    .invite-ornament--top {
+      top: -3%;
+      width: clamp(160px, 60vw, 340px);
+    }
+    .invite-ornament--bottom {
+      bottom: 4%;
+      width: clamp(130px, 48vw, 280px);
+    }
+
+    /* Reference composition: blessing → family → prose → Reet →
+       groom-side parents → with → Shubhangee → bride-side lineage. */
+    .invite-rule--open { margin-bottom: 1.8rem; }
+    .invite-inner-rule,
+    .invite-spacer-rule { display: none; }
+
+    .invite-block {
+      width: 100%;
+      padding: 0.2rem 0;
+      margin-bottom: 1.15rem;
+    }
+    .invite-block--focal { margin-top: 0; margin-bottom: 0.35rem; }
+
+    .invite-blessing-label {
+      font-size: 11.2px;
+      letter-spacing: 0.22em;
+      margin-bottom: 1.4rem;
+    }
+    .invite-ancestor {
+      font-size: 17px;
+      line-height: 1.52;
+    }
+    .invite-prose {
+      max-width: 340px;
+      font-size: 17px;
+      line-height: 1.55;
+      margin: 0 auto 1.9rem;
+    }
+    .invite-name {
+      font-size: clamp(3.4rem, 15vw, 3.75rem);
+      line-height: 1.05;
+    }
+    .invite-parent {
+      font-size: 16px;
+      line-height: 1.52;
+      margin-top: 0.15rem;
+    }
+    .invite-with {
+      font-size: 14px;
+      margin: 0.2rem 0;
+    }
+    .invite-name--bride { margin-bottom: 0.15rem; }
+    .invite-name--groom { margin-top: 0; }
+    .invite-rule--mid {
+      margin-top: 0.9rem;
+      margin-bottom: 1.45rem;
+    }
+    .invite-lineage-label {
+      font-size: 9px;
+      letter-spacing: 0.24em;
+      margin-bottom: 0.4rem;
+    }
+    .invite-lineage {
+      max-width: 390px;
+      font-size: 16px;
+      line-height: 1.55;
+      margin-bottom: 1.4rem;
+    }
+    .invite-rule--close { margin-top: 0.6rem; }
+
+    @media (max-width: 519px) {
+      .invite-card {
+        max-width: 100%;
+        min-height: 1180px;
+        padding: 6.5rem 2rem 7.5rem;
+      }
+      .invite-ornament--top { top: -1%; width: clamp(160px, 60vw, 300px); }
+      .invite-ornament--bottom { bottom: 3%; width: clamp(130px, 48vw, 260px); }
+      .invite-blessing-label { margin-bottom: 1.5rem; }
+      .invite-ancestor { font-size: 17px; }
+      .invite-prose { max-width: 310px; margin-bottom: 2.15rem; }
+      .invite-name { font-size: clamp(3.35rem, 15vw, 3.9rem); }
+      .invite-parent { max-width: 320px; }
+      .invite-lineage { max-width: 320px; font-size: 15px; }
+      .invite-block { margin-bottom: 1.3rem; }
+      .invite-block--focal { margin-bottom: 0.45rem; }
+    }
+  `;
+  document.head.appendChild(inviteLayoutStyle);
 
   var pair = S.couple.first + ' & ' + S.couple.second;
 
@@ -53,12 +159,9 @@
     rule('invite-rule--open') +
     block('<p class="invite-blessing-label">' + esc(I.blessingLabel) + '</p>') +
     block(p('invite-ancestor', I.elders)) +
-    '<div class="invite-inner-rule" aria-hidden="true"><span class="invite-inner-line"></span>' +
-      '<span class="invite-inner-dot">◆</span><span class="invite-inner-line"></span></div>' +
-    block(p('invite-parent', I.parents)) +
-    '<div class="invite-spacer-rule" aria-hidden="true"><span class="invite-rule-line"></span></div>' +
     block('<p class="invite-prose">' + lines(I.prose) + '</p>') +
     block('<h2 class="invite-name invite-name--bride">' + esc(I.firstName) + '</h2>', true) +
+    block(p('invite-parent', I.parents)) +
     block('<p class="invite-with">' + esc(I.joinWord) + '</p>') +
     block('<h2 class="invite-name invite-name--groom">' + esc(I.secondName) + '</h2>', true) +
     rule('invite-rule--mid') +
@@ -114,7 +217,7 @@
   } else {
     text('.rsvp-heading', S.rsvp.heading);
     var phoneIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.32.57 3.58.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1C10.29 21 3 13.71 3 4.5c0-.55.45-1 1-1H7.5c.55 0 1 .45 1 1 0 1.26.2 2.46.57 3.57.12.36.03.76-.24 1.02L6.6 10.8z"/></svg>';
-    var waIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>';
+    var waIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-3.8-7.6 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>';
     html('.rsvp-contacts', contacts.map(function (c) {
       var digits = String(c.phone).replace(/\D/g, '');
       var wa = digits.length === 10 ? '91' + digits : digits;
