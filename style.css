@@ -3334,6 +3334,146 @@ a   { color: inherit; text-decoration: none; }
 [data-hidden-by-config] { display: none !important; }
 
 
+
+
+/* ═══════════════════════════════════════════════════════════════
+   INVITATION LAYOUT — MATCH REFERENCE IMAGE #2
+   Layout-only override. Existing content, assets, and behavior remain unchanged.
+═══════════════════════════════════════════════════════════════ */
+
+@media (max-width: 519px) {
+  .invite {
+    min-height: 100dvh;
+    min-height: 100vh;
+    align-items: flex-start;
+  }
+
+  .invite-card {
+    max-width: 100%;
+    width: 100%;
+    padding: 9.2rem 2.6rem 7.4rem;
+    min-height: 100dvh;
+    min-height: 100vh;
+    justify-content: flex-start;
+  }
+
+  .invite-ornament--top {
+    top: 3.2%;
+    width: clamp(205px, 58vw, 300px);
+  }
+
+  .invite-ornament--bottom {
+    bottom: 2.5%;
+    width: clamp(175px, 52vw, 270px);
+  }
+
+  .invite-rule {
+    width: clamp(120px, 47vw, 195px);
+  }
+
+  .invite-rule--open {
+    margin-bottom: 1.35rem;
+  }
+
+  .invite-blessing-label {
+    font-size: 9.8px;
+    letter-spacing: 0.27em;
+    margin-bottom: 1.05rem;
+  }
+
+  .invite-ancestor {
+    font-size: 15.5px;
+    line-height: 1.42;
+  }
+
+  .invite-parent {
+    font-size: 15px;
+    line-height: 1.42;
+  }
+
+  .invite-inner-rule {
+    margin: 0.72rem 0;
+    width: 88px;
+  }
+
+  .invite-spacer-rule {
+    margin: 0.95rem 0;
+    width: 88px;
+  }
+
+  .invite-prose {
+    max-width: 300px;
+    font-size: 15.7px;
+    line-height: 1.48;
+    margin-bottom: 1.65rem;
+  }
+
+  .invite-name {
+    font-size: clamp(3.15rem, 15.8vw, 3.85rem);
+    line-height: 0.98;
+  }
+
+  .invite-with {
+    font-size: 13px;
+    margin: 0.18rem 0 0.05rem;
+  }
+
+  .invite-rule--mid {
+    margin-top: 0.75rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .invite-lineage-label {
+    font-size: 8px;
+    letter-spacing: 0.28em;
+    margin-bottom: 0.32rem;
+  }
+
+  .invite-lineage {
+    max-width: 310px;
+    font-size: 14.2px;
+    line-height: 1.45;
+    margin-bottom: 0.8rem;
+  }
+
+  .invite-rule--close {
+    margin-top: 0.15rem;
+  }
+
+  .invite .section-scroll-cue {
+    bottom: calc(15px + var(--safe-b, 0px));
+    min-width: 148px;
+    min-height: 54px;
+    padding: 8px 19px;
+    gap: 2px;
+  }
+}
+
+@media (min-width: 520px) {
+  .invite-card {
+    max-width: 560px;
+    min-height: 100vh;
+    padding: 9rem 4rem 7.5rem;
+  }
+
+  .invite-ornament--top {
+    top: 3%;
+    width: clamp(210px, 34vw, 340px);
+  }
+
+  .invite-ornament--bottom {
+    bottom: 3%;
+    width: clamp(175px, 28vw, 300px);
+  }
+
+  .invite-blessing-label { margin-bottom: 1.15rem; }
+  .invite-ancestor { font-size: 16px; }
+  .invite-parent { font-size: 15.5px; }
+  .invite-prose { max-width: 340px; font-size: 16px; }
+  .invite-name { font-size: clamp(3.6rem, 6vw, 5rem); }
+  .invite-lineage { max-width: 380px; font-size: 15px; }
+}
+
 /* ─── Visible section-to-section scroll cues ───────────────── */
 .section-scroll-cue {
   position: absolute;
