@@ -22,13 +22,13 @@
   var inviteLayoutStyle = document.createElement('style');
   inviteLayoutStyle.id = 'invite-reference-layout';
   inviteLayoutStyle.textContent = `
-    /* Neutralise the previous invitation-layout override */
+    /* Invitation page: compact the card so no artificial blank area remains. */
     .invite { min-height: 100vh; align-items: flex-start; }
     .invite-card {
       max-width: 560px;
       width: 100%;
       min-height: 100vh;
-      padding: 5.5rem 2rem 8rem;
+      padding: 5.5rem 2rem 4.5rem;
       justify-content: flex-start;
     }
     .invite-ornament--top {
@@ -36,86 +36,93 @@
       width: clamp(160px, 60vw, 340px);
     }
     .invite-ornament--bottom {
-      bottom: 4%;
+      bottom: 3%;
       width: clamp(130px, 48vw, 280px);
     }
 
     /* Reference composition: blessing → family → prose → Reet →
        groom-side parents → with → Shubhangee → bride-side lineage. */
-    .invite-rule--open { margin-bottom: 1.8rem; }
+    .invite-rule--open { margin-bottom: 1.4rem; }
     .invite-inner-rule,
     .invite-spacer-rule { display: none; }
 
     .invite-block {
       width: 100%;
-      padding: 0.2rem 0;
-      margin-bottom: 1.15rem;
+      padding: 0.15rem 0;
+      margin-bottom: 0.85rem;
     }
-    .invite-block--focal { margin-top: 0; margin-bottom: 0.35rem; }
+    .invite-block--focal { margin-top: 0; margin-bottom: 0.25rem; }
 
     .invite-blessing-label {
-      font-size: 11.2px;
+      font-size: 12.5px;
       letter-spacing: 0.22em;
-      margin-bottom: 1.4rem;
+      margin-bottom: 1.1rem;
     }
     .invite-ancestor {
-      font-size: 17px;
-      line-height: 1.52;
+      font-size: 19px;
+      line-height: 1.42;
     }
     .invite-prose {
-      max-width: 340px;
-      font-size: 17px;
-      line-height: 1.55;
-      margin: 0 auto 1.9rem;
+      max-width: 350px;
+      font-size: 19px;
+      line-height: 1.48;
+      margin: 0 auto 1.35rem;
     }
     .invite-name {
-      font-size: clamp(3.4rem, 15vw, 3.75rem);
-      line-height: 1.05;
+      font-size: clamp(3.4rem, 15vw, 3.9rem);
+      line-height: 1.02;
     }
     .invite-parent {
-      font-size: 16px;
-      line-height: 1.52;
-      margin-top: 0.15rem;
+      font-size: 18px;
+      line-height: 1.42;
+      margin-top: 0.1rem;
     }
     .invite-with {
-      font-size: 14px;
-      margin: 0.2rem 0;
+      font-size: 16px;
+      margin: 0.12rem 0;
     }
-    .invite-name--bride { margin-bottom: 0.15rem; }
+    .invite-name--bride { margin-bottom: 0.1rem; }
     .invite-name--groom { margin-top: 0; }
     .invite-rule--mid {
-      margin-top: 0.9rem;
-      margin-bottom: 1.45rem;
+      margin-top: 0.65rem;
+      margin-bottom: 1rem;
     }
     .invite-lineage-label {
-      font-size: 9px;
+      font-size: 10px;
       letter-spacing: 0.24em;
-      margin-bottom: 0.4rem;
+      margin-bottom: 0.28rem;
     }
     .invite-lineage {
       max-width: 390px;
-      font-size: 16px;
-      line-height: 1.55;
-      margin-bottom: 1.4rem;
+      font-size: 17px;
+      line-height: 1.42;
+      margin-bottom: 0.8rem;
     }
-    .invite-rule--close { margin-top: 0.6rem; }
+    .invite-rule--close { margin-top: 0.25rem; }
+
+    /* Events subtitle: make the complete “Two days of joy” line bright. */
+    .events-subtitle {
+      color: #F7E9C8;
+      opacity: 1;
+      text-shadow: 0 0 10px rgba(255,248,220,0.32);
+    }
 
     @media (max-width: 519px) {
       .invite-card {
         max-width: 100%;
-        min-height: 1180px;
-        padding: 6.5rem 2rem 7.5rem;
+        min-height: 100vh;
+        padding: 6.5rem 2rem 4.5rem;
       }
       .invite-ornament--top { top: -1%; width: clamp(160px, 60vw, 300px); }
-      .invite-ornament--bottom { bottom: 3%; width: clamp(130px, 48vw, 260px); }
-      .invite-blessing-label { margin-bottom: 1.5rem; }
-      .invite-ancestor { font-size: 17px; }
-      .invite-prose { max-width: 310px; margin-bottom: 2.15rem; }
+      .invite-ornament--bottom { bottom: 2%; width: clamp(130px, 48vw, 260px); }
+      .invite-blessing-label { margin-bottom: 1.15rem; }
+      .invite-ancestor { font-size: 19px; }
+      .invite-prose { max-width: 315px; font-size: 19px; margin-bottom: 1.5rem; }
       .invite-name { font-size: clamp(3.35rem, 15vw, 3.9rem); }
-      .invite-parent { max-width: 320px; }
-      .invite-lineage { max-width: 320px; font-size: 15px; }
-      .invite-block { margin-bottom: 1.3rem; }
-      .invite-block--focal { margin-bottom: 0.45rem; }
+      .invite-parent { max-width: 330px; font-size: 18px; }
+      .invite-lineage { max-width: 330px; font-size: 17px; }
+      .invite-block { margin-bottom: 0.9rem; }
+      .invite-block--focal { margin-bottom: 0.25rem; }
     }
   `;
   document.head.appendChild(inviteLayoutStyle);
