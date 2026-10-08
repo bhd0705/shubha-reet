@@ -102,10 +102,10 @@ window.SITE = {
     title:    'Wardrobe Planner',
     subtitle: 'Dress codes & colour palettes<br> for each event.',
     items: [
-      { theme: 'coastal-affair', label: 'Haldi',     sub: 'Pastel Hues',     desc: 'Breezy tones for a sun-kissed afternoon' },
-      { theme: 'sangeet',        label: 'Sangeet',   sub: 'Starlit Glam',    desc: 'Shimmer, sequins & the dance floor' },
+      { theme: 'coastal-affair', label: 'Haldi',     sub: 'Colourful attire',     desc: 'Breezy tones for a sun-kissed afternoon' },
+      { theme: 'sangeet',        label: 'Sangeet',   sub: 'Glitz & Glamorous',    desc: 'Shimmer, sequins & the dance floor' },
       { theme: 'shaadi',         label: 'Wedding',   sub: 'Royal Elegance',  desc: 'Rich hues for a timeless celebration' },
-      { theme: 'welcome-lunch',  label: 'Reception', sub: 'Indo Western',    desc: 'Evening elegance with a desi twist' }
+      { theme: 'welcome-lunch',  label: 'Reception', sub: 'Starlit glam',    desc: 'Evening elegance with a desi twist' }
     ]
   },
 
@@ -123,9 +123,10 @@ window.SITE = {
           'Vikram & Neeta',
           'Rishabha & Nitu',
           'Shreepal & Bhavana',
-          'Anjana & Sanjayji',
           'Shrenik & Seema',
-          'Vipul & Madhuri'
+          'Vipul & Madhuri',
+          'Dearest,',
+          'Anjana & Sanjayji',
         ]
       },
       {
