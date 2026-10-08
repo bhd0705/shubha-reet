@@ -37,8 +37,8 @@ window.SITE = {
     joinWord:   '&',
     secondName: 'SHUBHANGEE',
     lineage: [
-      { label: 'd/o :', text: 'Sushma Hukumchandji Jain' },
-      { label: 'g/d :', text: 'Rukhmadevi Mishrilalji Jain' }
+      { label: 'D/O :', text: 'Sushma Hukumchandji Jain' },
+      { label: 'G/D :', text: 'Rukhmadevi Mishrilalji Jain' }
     ]
   },
 
