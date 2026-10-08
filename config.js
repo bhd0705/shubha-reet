@@ -145,68 +145,9 @@ window.SITE = {
   }
 };
 
-/* ─── Invitation-only visual correction ─── */
+/* ─── Invitation text correction ─── */
 window.addEventListener('DOMContentLoaded', function () {
-  var style = document.createElement('style');
-  style.textContent = `
-    .invite-card .invite-ganpati-block {
-      display: flex !important;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      width: 100%;
-      margin: 0 0 0.9rem;
-      position: relative;
-      z-index: 10;
-    }
-    .invite-card .invite-ganpati {
-      width: 78px !important;
-      height: auto !important;
-      display: block !important;
-      margin: 0 auto 0.35rem !important;
-      border-radius: 0 !important;
-      object-fit: contain !important;
-    }
-    .invite-card .invite-prayer {
-      display: block !important;
-      visibility: visible !important;
-      opacity: 1 !important;
-      font-family: 'Cormorant Garamond', Georgia, serif !important;
-      font-size: 11px !important;
-      font-weight: 400 !important;
-      font-style: normal !important;
-      line-height: 1.2 !important;
-      letter-spacing: 0.02em !important;
-      margin: 0.04rem 0 !important;
-      color: #5C5045 !important;
-      text-align: center !important;
-      white-space: nowrap !important;
-    }
-    .invite-card .invite-name {
-      font-family: 'Great Vibes', 'Pinyon Script', cursive !important;
-      font-weight: 400 !important;
-      font-style: normal !important;
-      line-height: 1 !important;
-      letter-spacing: -0.03em !important;
-      font-size: 3rem !important;
-    }
-    .invite-card .invite-name--groom {
-      font-size: 2.65rem !important;
-    }
-    @media (max-width: 519px) {
-      .invite-card {
-        padding-top: 3.5rem !important;
-      }
-      .invite-card .invite-ganpati {
-        width: 72px !important;
-      }
-      .invite-card .invite-name {
-        font-size: 2.85rem !important;
-      }
-      .invite-card .invite-name--groom {
-        font-size: 2.55rem !important;
-      }
-    }
-  `;
-  document.head.appendChild(style);
+  var prayers = document.querySelectorAll('.invite-prayer');
+  if (prayers[0]) prayers[0].textContent = 'Shree Shankheshwar Parshwanathay namah';
+  if (prayers[1]) prayers[1].textContent = 'Shree Ganeshay namah';
 });
