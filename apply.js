@@ -181,7 +181,7 @@
     '<p class="invite-section-num" aria-hidden="true">02</p>' +
     rule('invite-rule--open') +
     '<div class="invite-ganpati-block" aria-label="Ganpati Bappa blessing">' +
-      '<img class="invite-ganpati" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Ganapathi_%E0%A4%97%E0%A4%A3%E0%A4%AA%E0%A4%A4%E0%A4%BF.JPG/500px-Ganapathi_%E0%A4%97%E0%A4%A3%E0%A4%AA%E0%A4%A4%E0%A4%BF.JPG" alt="Ganpati Bappa" />' +
+      '<img class="invite-ganpati" src="assets/ganpati.png" alt="Ganpati Bappa" />' +
       '<p class="invite-prayer">-Shree Shankheshwar Parshwanathay namah</p>' +
       '<p class="invite-prayer">-Shree Ganeshay namah</p>' +
     '</div>' +
