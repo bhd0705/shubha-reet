@@ -173,34 +173,53 @@ window.addEventListener('DOMContentLoaded', function () {
       opacity: 1 !important;
       color: #5C5045 !important;
       font-family: 'Cormorant Garamond', Georgia, serif !important;
-      font-size: 11px !important;
+      font-size: 12px !important;
       font-weight: 400 !important;
       font-style: normal !important;
-      line-height: 1.2 !important;
-      letter-spacing: 0.02em !important;
-      margin: 0.04rem 0 !important;
+      line-height: 1.35 !important;
+      letter-spacing: 0.03em !important;
+      margin: 0.05rem 0 !important;
       text-align: center !important;
       white-space: nowrap !important;
     }
     .invite-card .invite-name {
       font-family: 'Great Vibes', 'Pinyon Script', cursive !important;
-      font-size: clamp(3.4rem, 15vw, 3.75rem) !important;
+      font-size: clamp(2.65rem, 11.5vw, 3.5rem) !important;
       font-weight: 400 !important;
-      letter-spacing: -0.03em !important;
-      line-height: 1.05 !important;
+      letter-spacing: 0 !important;
+      line-height: 1 !important;
       color: #2F2924 !important;
       margin: 0 !important;
+      white-space: nowrap !important;
     }
     .invite-card .invite-name--groom,
     .invite-card .invite-name--bride {
       margin-top: 0 !important;
       margin-bottom: 0 !important;
     }
+    /* Each bride-side lineage entry: label + full name on one line. */
+    .invite-card .invite-lineage-label {
+      display: inline !important;
+      font-size: 12px !important;
+      letter-spacing: 0.08em !important;
+      margin: 0 0.3rem 0 0 !important;
+      white-space: nowrap !important;
+    }
+    .invite-card .invite-lineage {
+      display: inline !important;
+      max-width: none !important;
+      font-size: 16px !important;
+      line-height: 1.4 !important;
+      margin: 0 !important;
+      white-space: nowrap !important;
+    }
     @media (max-width: 519px) {
       .invite-card .invite-ganpati { width: 72px !important; }
       .invite-card .invite-name {
-        font-size: clamp(3.15rem, 15.8vw, 3.85rem) !important;
-        line-height: 0.98 !important;
+        font-size: clamp(2.65rem, 11.5vw, 3.5rem) !important;
+      }
+      .invite-card .invite-lineage {
+        font-size: 15.5px !important;
       }
     }
   `;
