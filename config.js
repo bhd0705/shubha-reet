@@ -32,7 +32,7 @@ window.SITE = {
     parents: ['s/o : Nitu Rishabha Jain', 'g/s : Sushila Sukanraj Jain'],
     prose:   ['Solicit your gracious presence & blessings',
               'on the auspicious occasion of',
-              'the wedding of their son'],
+              'the wedding of'],
     firstName:  'REET',
     joinWord:   '&',
     secondName: 'SHUBHANGEE',
