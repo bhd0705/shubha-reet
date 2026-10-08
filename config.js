@@ -182,13 +182,14 @@ window.addEventListener('DOMContentLoaded', function () {
       text-align: center !important;
       white-space: nowrap !important;
     }
-    /* Clean, elegant serif for both names — no script font. */
+    /* Stylish but restrained: elegant editorial italic, not a large script. */
     .invite-card .invite-name {
-      font-family: 'Playfair Display', 'Cormorant Garamond', Georgia, serif !important;
-      font-size: clamp(2.25rem, 10vw, 3.1rem) !important;
+      font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif !important;
+      font-size: clamp(2.15rem, 9vw, 2.85rem) !important;
       font-weight: 500 !important;
-      letter-spacing: 0.04em !important;
-      line-height: 1.05 !important;
+      font-style: italic !important;
+      letter-spacing: 0.035em !important;
+      line-height: 1.02 !important;
       color: #2F2924 !important;
       margin: 0 !important;
       white-space: nowrap !important;
@@ -231,7 +232,7 @@ window.addEventListener('DOMContentLoaded', function () {
     @media (max-width: 519px) {
       .invite-card .invite-ganpati { width: 72px !important; }
       .invite-card .invite-name {
-        font-size: clamp(2.25rem, 10vw, 3.1rem) !important;
+        font-size: clamp(2.15rem, 9vw, 2.85rem) !important;
       }
       .invite-card .invite-block:has(.invite-lineage-label) {
         gap: 0.22rem !important;
