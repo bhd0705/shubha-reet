@@ -94,7 +94,7 @@ window.SITE = {
       time:  '7:00 PM Onwards',
       venue: 'Anantay Lawns',
       tag:   'Celebrate the newlyweds',
-      mapsHref: 'https://share.google/kTb0705/shubha-reet'
+      mapsHref: 'https://share.google/kTb61CeRaYJH6Zllu'
     }
   ],
 
