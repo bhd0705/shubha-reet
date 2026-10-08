@@ -182,33 +182,48 @@ window.addEventListener('DOMContentLoaded', function () {
       text-align: center !important;
       white-space: nowrap !important;
     }
+    /* Clean, elegant serif for both names — no script font. */
     .invite-card .invite-name {
-      font-family: 'Great Vibes', 'Pinyon Script', cursive !important;
-      font-size: clamp(2.65rem, 11.5vw, 3.5rem) !important;
-      font-weight: 400 !important;
-      letter-spacing: 0 !important;
-      line-height: 1 !important;
+      font-family: 'Playfair Display', 'Cormorant Garamond', Georgia, serif !important;
+      font-size: clamp(2.25rem, 10vw, 3.1rem) !important;
+      font-weight: 500 !important;
+      letter-spacing: 0.04em !important;
+      line-height: 1.05 !important;
       color: #2F2924 !important;
       margin: 0 !important;
       white-space: nowrap !important;
+      text-transform: uppercase !important;
     }
     .invite-card .invite-name--groom,
     .invite-card .invite-name--bride {
       margin-top: 0 !important;
       margin-bottom: 0 !important;
     }
-    /* Each bride-side lineage entry: label + full name on one line. */
+    /* Keep each bride-side lineage entry on exactly one line. */
+    .invite-card .invite-block:has(.invite-lineage-label) {
+      display: flex !important;
+      flex-direction: row !important;
+      align-items: baseline !important;
+      justify-content: center !important;
+      gap: 0.28rem !important;
+      width: 100% !important;
+      padding: 0.15rem 0 !important;
+      margin-bottom: 0.55rem !important;
+      white-space: nowrap !important;
+    }
     .invite-card .invite-lineage-label {
-      display: inline !important;
+      display: inline-block !important;
+      flex: 0 0 auto !important;
       font-size: 12px !important;
-      letter-spacing: 0.08em !important;
-      margin: 0 0.3rem 0 0 !important;
+      letter-spacing: 0.04em !important;
+      margin: 0 !important;
       white-space: nowrap !important;
     }
     .invite-card .invite-lineage {
-      display: inline !important;
+      display: inline-block !important;
+      flex: 0 1 auto !important;
       max-width: none !important;
-      font-size: 16px !important;
+      font-size: 15.5px !important;
       line-height: 1.4 !important;
       margin: 0 !important;
       white-space: nowrap !important;
@@ -216,10 +231,16 @@ window.addEventListener('DOMContentLoaded', function () {
     @media (max-width: 519px) {
       .invite-card .invite-ganpati { width: 72px !important; }
       .invite-card .invite-name {
-        font-size: clamp(2.65rem, 11.5vw, 3.5rem) !important;
+        font-size: clamp(2.25rem, 10vw, 3.1rem) !important;
+      }
+      .invite-card .invite-block:has(.invite-lineage-label) {
+        gap: 0.22rem !important;
+      }
+      .invite-card .invite-lineage-label {
+        font-size: 11px !important;
       }
       .invite-card .invite-lineage {
-        font-size: 15.5px !important;
+        font-size: 14.5px !important;
       }
     }
   `;
