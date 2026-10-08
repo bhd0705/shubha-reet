@@ -94,7 +94,7 @@ window.SITE = {
       time:  '7:00 PM Onwards',
       venue: 'Anantay Lawns',
       tag:   'Celebrate the newlyweds',
-      mapsHref: 'https://share.google/kTb61CeRaYJH6Zllu'
+      mapsHref: 'https://share.google/kTb0705/shubha-reet'
     }
   ],
 
@@ -145,9 +145,70 @@ window.SITE = {
   }
 };
 
-/* ─── Invitation text correction ─── */
+/* ─── Invitation visual corrections ─── */
 window.addEventListener('DOMContentLoaded', function () {
-  var prayers = document.querySelectorAll('.invite-prayer');
-  if (prayers[0]) prayers[0].textContent = 'Shree Shankheshwar Parshwanathay namah';
-  if (prayers[1]) prayers[1].textContent = 'Shree Ganeshay namah';
+  var style = document.createElement('style');
+  style.textContent = `
+    .invite-card .invite-ganpati-block {
+      display: flex !important;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      width: 100%;
+      margin: 0 0 0.9rem;
+      position: relative;
+      z-index: 10;
+    }
+    .invite-card .invite-ganpati {
+      width: 78px !important;
+      height: auto !important;
+      display: block !important;
+      margin: 0 auto 0.35rem !important;
+      border-radius: 0 !important;
+      object-fit: contain !important;
+    }
+    .invite-card .invite-prayer {
+      display: block !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+      color: #5C5045 !important;
+      font-family: 'Cormorant Garamond', Georgia, serif !important;
+      font-size: 11px !important;
+      font-weight: 400 !important;
+      font-style: normal !important;
+      line-height: 1.2 !important;
+      letter-spacing: 0.02em !important;
+      margin: 0.04rem 0 !important;
+      text-align: center !important;
+      white-space: nowrap !important;
+    }
+    .invite-card .invite-name {
+      font-family: 'Great Vibes', 'Pinyon Script', cursive !important;
+      font-size: clamp(3.4rem, 15vw, 3.75rem) !important;
+      font-weight: 400 !important;
+      letter-spacing: -0.03em !important;
+      line-height: 1.05 !important;
+      color: #2F2924 !important;
+      margin: 0 !important;
+    }
+    .invite-card .invite-name--groom,
+    .invite-card .invite-name--bride {
+      margin-top: 0 !important;
+      margin-bottom: 0 !important;
+    }
+    @media (max-width: 519px) {
+      .invite-card .invite-ganpati { width: 72px !important; }
+      .invite-card .invite-name {
+        font-size: clamp(3.15rem, 15.8vw, 3.85rem) !important;
+        line-height: 0.98 !important;
+      }
+    }
+  `;
+  document.head.appendChild(style);
+
+  setTimeout(function () {
+    var prayers = document.querySelectorAll('.invite-prayer');
+    if (prayers[0]) prayers[0].textContent = 'Shree Shankheshwar Parshwanathay namah';
+    if (prayers[1]) prayers[1].textContent = 'Shree Ganeshay namah';
+  }, 0);
 });
