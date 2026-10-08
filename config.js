@@ -8,7 +8,7 @@ window.SITE = {
 
   /* ─── Couple ─── */
   couple: {
-    first:  'Reet',
+    first:  'Reet',          // shown first (groom-side invitation)
     second: 'Shubhangee'
   },
 
@@ -27,20 +27,26 @@ window.SITE = {
 
   /* ─── Invitation card ─── */
   invite: {
-    blessingLabel: 'With the blessing of',
-    elders:  ['VASANT FAMILY'],
-    parents: ['s/o : Nitu Rishabha Jain', 'g/s : Sushila Sukanraj Jain'],
-    prose:   ['Solicit your gracious presence & blessings on the auspicious occasion of the wedding of'],
-    firstName:  'REET',
-    joinWord:   '&',
-    secondName: 'SHUBHANGEE',
+    blessingLabel: 'With the Blessings of',
+    elders:  ['Vasant Family'],
+    parents: ['Smt. Nitu Jain &', 'Shri Rishabha Jain'],
+    prose:   ['Solicit your gracious presence & Blessings',
+              'on the auspicious occasion of',
+              'the wedding of their son'],
+    firstName:  'Reet',
+    joinWord:   'with',
+    secondName: 'Shubhangee',
     lineage: [
-      { label: '', text: 'd/o : Sushma Hukumchandji Jain' },
-      { label: '', text: 'g/d : Rukhmadevi Mishrilalji Jain' }
+      { label: 'Daughter of', text: 'Smt. Sushma Jain & Shri Hukumchandji Jain' }
     ]
   },
 
-  /* ─── Events ─── */
+  /* ─── Events ───
+     theme = which artwork/colours the card uses. Available themes:
+     'welcome-lunch', 'hi-tea', 'sangeet', 'coastal-affair',
+     'baraat', 'varmala', 'phere'
+     Add, remove or reorder entries freely. Use <br> for a new line.
+     mapsHref is optional (makes the venue a map link). */
   eventsTitle:    'Wedding Weekend Events',
   eventsSubtitle: 'Two days of joy,<br> one moment at a time',
   events: [
@@ -136,7 +142,9 @@ window.SITE = {
     ]
   },
 
-  /* ─── RSVP ─── */
+  /* ─── RSVP ───
+     Leave the list empty to hide the section.
+     Example:  { name: 'Rishabha Jain', phone: '98765 43210' } */
   rsvp: {
     heading:  'RSVP',
     contacts: []
