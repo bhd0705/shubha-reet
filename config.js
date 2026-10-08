@@ -182,38 +182,45 @@ window.addEventListener('DOMContentLoaded', function () {
       text-align: center !important;
       white-space: nowrap !important;
     }
-    /* Elegant wedding-script names: stylish, refined, and intentionally restrained in size. */
+    /* Stylish wedding typography, but restrained so both names remain balanced. */
     .invite-card .invite-name {
-      font-family: 'Pinyon Script', 'Great Vibes', cursive !important;
-      font-size: clamp(2.35rem, 10vw, 3rem) !important;
-      font-weight: 400 !important;
-      font-style: normal !important;
-      letter-spacing: 0 !important;
+      font-family: 'Cormorant Garamond', Georgia, serif !important;
+      font-size: clamp(2.45rem, 10vw, 2.9rem) !important;
+      font-weight: 500 !important;
+      font-style: italic !important;
+      letter-spacing: 0.02em !important;
       line-height: 1.02 !important;
       color: #2F2924 !important;
       margin: 0 !important;
       white-space: nowrap !important;
-      text-transform: none !important;
+      text-transform: uppercase !important;
     }
     .invite-card .invite-name--groom,
     .invite-card .invite-name--bride {
       margin-top: 0 !important;
       margin-bottom: 0 !important;
     }
-    /* Both groom-side parent lines use exactly the same font, size, weight and spacing. */
-    .invite-card .invite-parent {
+
+    /* ALL FOUR family/parent lines intentionally share exactly the same typography. */
+    .invite-card .invite-parent,
+    .invite-card .invite-lineage-label,
+    .invite-card .invite-lineage {
       font-family: 'Cormorant Garamond', Georgia, serif !important;
-      font-size: 17px !important;
+      font-size: 16px !important;
       font-weight: 400 !important;
       font-style: normal !important;
       letter-spacing: 0.01em !important;
-      line-height: 1.42 !important;
+      line-height: 1.4 !important;
+      color: #5C5045 !important;
       text-transform: none !important;
+    }
+    .invite-card .invite-parent {
       margin-top: 0.1rem !important;
       margin-bottom: 0 !important;
       white-space: nowrap !important;
     }
-    /* Keep each bride-side lineage entry on exactly one line. */
+
+    /* Keep d/o + name and g/d + name together on one line. */
     .invite-card .invite-block:has(.invite-lineage-label) {
       display: flex !important;
       flex-direction: row !important;
@@ -228,8 +235,6 @@ window.addEventListener('DOMContentLoaded', function () {
     .invite-card .invite-lineage-label {
       display: inline-block !important;
       flex: 0 0 auto !important;
-      font-size: 12px !important;
-      letter-spacing: 0.04em !important;
       margin: 0 !important;
       white-space: nowrap !important;
     }
@@ -237,27 +242,23 @@ window.addEventListener('DOMContentLoaded', function () {
       display: inline-block !important;
       flex: 0 1 auto !important;
       max-width: none !important;
-      font-size: 15.5px !important;
-      line-height: 1.4 !important;
       margin: 0 !important;
       white-space: nowrap !important;
     }
+
     @media (max-width: 519px) {
       .invite-card .invite-ganpati { width: 72px !important; }
       .invite-card .invite-name {
-        font-size: clamp(2.35rem, 10vw, 3rem) !important;
+        font-size: clamp(2.45rem, 10vw, 2.9rem) !important;
       }
-      .invite-card .invite-parent {
-        font-size: 17px !important;
+      /* Keep the same exact typography on mobile too. */
+      .invite-card .invite-parent,
+      .invite-card .invite-lineage-label,
+      .invite-card .invite-lineage {
+        font-size: 15px !important;
       }
       .invite-card .invite-block:has(.invite-lineage-label) {
         gap: 0.22rem !important;
-      }
-      .invite-card .invite-lineage-label {
-        font-size: 11px !important;
-      }
-      .invite-card .invite-lineage {
-        font-size: 14.5px !important;
       }
     }
   `;
