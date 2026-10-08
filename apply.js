@@ -59,12 +59,12 @@
       margin-bottom: 1.1rem;
     }
     .invite-ganpati {
-      width: min(118px, 28vw);
+      width: min(145px, 34vw);
       height: auto;
       display: block;
-      margin: 0 auto 0.45rem;
-      border-radius: 50%;
-      object-fit: cover;
+      margin: 0 auto 0.55rem;
+      border-radius: 0;
+      object-fit: contain;
     }
     .invite-prayer {
       margin: 0.1rem auto;
@@ -130,7 +130,7 @@
       .invite-ornament--top { top: -1%; width: clamp(160px, 60vw, 300px); }
       .invite-ornament--bottom { bottom: 2%; width: clamp(130px, 48vw, 260px); }
       .invite-blessing-label { margin-bottom: 1.15rem; }
-      .invite-ganpati { width: min(108px, 27vw); margin-bottom: 0.4rem; }
+      .invite-ganpati { width: min(132px, 34vw); margin-bottom: 0.5rem; }
       .invite-prayer { font-size: 11px; letter-spacing: 0.06em; }
       .invite-ancestor { font-size: 19px; }
       .invite-prose { max-width: 315px; font-size: 19px; margin-bottom: 1.5rem; }
