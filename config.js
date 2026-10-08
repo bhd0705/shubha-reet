@@ -182,23 +182,36 @@ window.addEventListener('DOMContentLoaded', function () {
       text-align: center !important;
       white-space: nowrap !important;
     }
-    /* Stylish but restrained: elegant editorial italic, not a large script. */
+    /* Elegant wedding-script names: stylish, refined, and intentionally restrained in size. */
     .invite-card .invite-name {
-      font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif !important;
-      font-size: clamp(2.15rem, 9vw, 2.85rem) !important;
-      font-weight: 500 !important;
-      font-style: italic !important;
-      letter-spacing: 0.035em !important;
+      font-family: 'Pinyon Script', 'Great Vibes', cursive !important;
+      font-size: clamp(2.35rem, 10vw, 3rem) !important;
+      font-weight: 400 !important;
+      font-style: normal !important;
+      letter-spacing: 0 !important;
       line-height: 1.02 !important;
       color: #2F2924 !important;
       margin: 0 !important;
       white-space: nowrap !important;
-      text-transform: uppercase !important;
+      text-transform: none !important;
     }
     .invite-card .invite-name--groom,
     .invite-card .invite-name--bride {
       margin-top: 0 !important;
       margin-bottom: 0 !important;
+    }
+    /* Both groom-side parent lines use exactly the same font, size, weight and spacing. */
+    .invite-card .invite-parent {
+      font-family: 'Cormorant Garamond', Georgia, serif !important;
+      font-size: 17px !important;
+      font-weight: 400 !important;
+      font-style: normal !important;
+      letter-spacing: 0.01em !important;
+      line-height: 1.42 !important;
+      text-transform: none !important;
+      margin-top: 0.1rem !important;
+      margin-bottom: 0 !important;
+      white-space: nowrap !important;
     }
     /* Keep each bride-side lineage entry on exactly one line. */
     .invite-card .invite-block:has(.invite-lineage-label) {
@@ -232,7 +245,10 @@ window.addEventListener('DOMContentLoaded', function () {
     @media (max-width: 519px) {
       .invite-card .invite-ganpati { width: 72px !important; }
       .invite-card .invite-name {
-        font-size: clamp(2.15rem, 9vw, 2.85rem) !important;
+        font-size: clamp(2.35rem, 10vw, 3rem) !important;
+      }
+      .invite-card .invite-parent {
+        font-size: 17px !important;
       }
       .invite-card .invite-block:has(.invite-lineage-label) {
         gap: 0.22rem !important;
