@@ -29,7 +29,7 @@ window.SITE = {
   invite: {
     blessingLabel: 'With the blessing of',
     elders:  ['VASANT FAMILY'],
-    parents: ['s/o : Nitu Rishabha Jain', 'g/s : Sushila Sukanraj Jain'],
+    parents: ['S/O : Nitu Rishabha Jain', 'G/S : Sushila Sukanraj Jain'],
     prose:   ['Solicit your gracious presence & blessings',
               'on the auspicious occasion of',
               'the wedding of'],
