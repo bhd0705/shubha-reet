@@ -58,6 +58,20 @@
       letter-spacing: 0.22em;
       margin-bottom: 1.1rem;
     }
+    .invite-ganpati {
+      width: min(118px, 28vw);
+      height: auto;
+      display: block;
+      margin: 0 auto 0.45rem;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .invite-prayer {
+      margin: 0.1rem auto;
+      font-size: 12px;
+      line-height: 1.35;
+      letter-spacing: 0.08em;
+    }
     .invite-ancestor {
       font-size: 19px;
       line-height: 1.42;
@@ -116,6 +130,8 @@
       .invite-ornament--top { top: -1%; width: clamp(160px, 60vw, 300px); }
       .invite-ornament--bottom { bottom: 2%; width: clamp(130px, 48vw, 260px); }
       .invite-blessing-label { margin-bottom: 1.15rem; }
+      .invite-ganpati { width: min(108px, 27vw); margin-bottom: 0.4rem; }
+      .invite-prayer { font-size: 11px; letter-spacing: 0.06em; }
       .invite-ancestor { font-size: 19px; }
       .invite-prose { max-width: 315px; font-size: 19px; margin-bottom: 1.5rem; }
       .invite-name { font-size: clamp(3.35rem, 15vw, 3.9rem); }
@@ -164,6 +180,11 @@
   html('.invite-card',
     '<p class="invite-section-num" aria-hidden="true">02</p>' +
     rule('invite-rule--open') +
+    '<div class="invite-ganpati-block" aria-label="Ganpati Bappa blessing">' +
+      '<img class="invite-ganpati" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Ganapathi_%E0%A4%97%E0%A4%A3%E0%A4%AA%E0%A4%A4%E0%A4%BF.JPG/500px-Ganapathi_%E0%A4%97%E0%A4%A3%E0%A4%AA%E0%A4%A4%E0%A4%BF.JPG" alt="Ganpati Bappa" />' +
+      '<p class="invite-prayer">-Shree Shankheshwar Parshwanathay namah</p>' +
+      '<p class="invite-prayer">-Shree Ganeshay namah</p>' +
+    '</div>' +
     block('<p class="invite-blessing-label">' + esc(I.blessingLabel) + '</p>') +
     block(p('invite-ancestor', I.elders)) +
     block('<p class="invite-prose">' + lines(I.prose) + '</p>') +
