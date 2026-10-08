@@ -8,7 +8,7 @@ window.SITE = {
 
   /* ─── Couple ─── */
   couple: {
-    first:  'Reet',          // shown first (groom-side invitation)
+    first:  'Reet',
     second: 'Shubhangee'
   },
 
@@ -27,26 +27,20 @@ window.SITE = {
 
   /* ─── Invitation card ─── */
   invite: {
-    blessingLabel: 'With the Blessings of',
-    elders:  ['Vasant Family'],
-    parents: ['Smt. Nitu Jain &', 'Shri Rishabha Jain'],
-    prose:   ['Solicit your gracious presence & Blessings',
-              'on the auspicious occasion of',
-              'the wedding of their son'],
-    firstName:  'Reet',
-    joinWord:   'with',
-    secondName: 'Shubhangee',
+    blessingLabel: 'With the blessing of',
+    elders:  ['VASANT FAMILY'],
+    parents: ['s/o : Nitu Rishabha Jain', 'g/s : Sushila Sukanraj Jain'],
+    prose:   ['Solicit your gracious presence & blessings on the auspicious occasion of the wedding of'],
+    firstName:  'REET',
+    joinWord:   '&',
+    secondName: 'SHUBHANGEE',
     lineage: [
-      { label: 'Daughter of', text: 'Smt. Sushma Jain & Shri Hukumchandji Jain' }
+      { label: '', text: 'd/o : Sushma Hukumchandji Jain' },
+      { label: '', text: 'g/d : Rukhmadevi Mishrilalji Jain' }
     ]
   },
 
-  /* ─── Events ───
-     theme = which artwork/colours the card uses. Available themes:
-     'welcome-lunch', 'hi-tea', 'sangeet', 'coastal-affair',
-     'baraat', 'varmala', 'phere'
-     Add, remove or reorder entries freely. Use <br> for a new line.
-     mapsHref is optional (makes the venue a map link). */
+  /* ─── Events ─── */
   eventsTitle:    'Wedding Weekend Events',
   eventsSubtitle: 'Two days of joy,<br> one moment at a time',
   events: [
@@ -102,10 +96,7 @@ window.SITE = {
     }
   ],
 
-  /* ─── Wardrobe planner ───
-     show: false hides the whole section.
-     theme = which outfit artwork is shown:
-     'welcome-lunch', 'sangeet', 'coastal-affair', 'shaadi' */
+  /* ─── Wardrobe planner ─── */
   wardrobe: {
     show:     true,
     title:    'Wardrobe Planner',
@@ -144,9 +135,7 @@ window.SITE = {
     ]
   },
 
-  /* ─── RSVP ───
-     Leave the list empty to hide the section.
-     Example:  { name: 'Rishabha Jain', phone: '98765 43210' } */
+  /* ─── RSVP ─── */
   rsvp: {
     heading:  'RSVP',
     contacts: []
