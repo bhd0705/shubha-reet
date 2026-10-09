@@ -182,8 +182,7 @@
     rule('invite-rule--open') +
     '<div class="invite-ganpati-block" aria-label="Ganpati Bappa blessing">' +
       '<img class="invite-ganpati" src="assets/ganpati.png" alt="Ganpati Bappa" />' +
-      '<p class="invite-prayer">-Shree Shankheshwar Parshwanathay namah</p>' +
-      '<p class="invite-prayer">-Shree Ganeshay namah</p>' +
+      '<p class="invite-prayer">|| Shree Shankheshwar Parshvanthay Namah ||</p>' +
     '</div>' +
     block('<p class="invite-blessing-label">' + esc(I.blessingLabel) + '</p>') +
     block(p('invite-ancestor', I.elders)) +
