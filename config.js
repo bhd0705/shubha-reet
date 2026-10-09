@@ -267,6 +267,5 @@ window.addEventListener('DOMContentLoaded', function () {
   setTimeout(function () {
     var prayers = document.querySelectorAll('.invite-prayer');
     if (prayers[0]) prayers[0].textContent = 'Shree Shankheshwar Parshwanathay namah';
-    if (prayers[1]) prayers[1].textContent = 'Shree Ganeshay namah';
   }, 0);
 });
