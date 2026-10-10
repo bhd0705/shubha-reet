@@ -51,7 +51,7 @@ window.SITE = {
       name:  'Haldi',
       sub:   'Shades of Sunshine',
       date:  '1st January 2027',
-      time:  '12 Noon Onwards',
+      time:  '12:39 PM onwards',
       venue: 'Pool Side Lawn Area',
       tag:   'A golden start to the celebrations',
       mapsHref: 'https://share.google/kTb61CeRaYJH6Zllu'
